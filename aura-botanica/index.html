@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURA BOTANICA — Artisanal Single-Origin Roastery & Botanical Café</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">&#10005;</button>
+      <div class="modal-inner">
+        <div class="modal-brand">AURA BOTANICA COFFEE ATELIER</div>
+        <h2 class="modal-title">Join the Reserve Circle</h2>
+        <p class="modal-sub">Receive curated micro-lot reserve origins, harvest journals, and private releases crafted for connoisseurs.</p>
+        <div class="modal-form">
+          <input type="email" placeholder="concierge@aurabotanica.com" class="modal-input" />
+          <button class="modal-btn">Request Access</button>
+        </div>
+        <p class="modal-legal">By subscribing, you agree to receive communications from AURA BOTANICA COFFEE ATELIER. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav" id="navbar">
+    <div class="nav-left">
+      <button class="nav-menu-btn" id="menuBtn">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="nav-label">Atelier Menu</span>
+    </div>
+    <div class="nav-logo">AURA BOTANICA</div>
+    <div class="nav-right">
+      <button class="nav-search" onclick="openCart()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span>Bag (<span id="cart-count">0</span>)</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="side-menu" id="sideMenu">
+    <button class="side-menu-close" id="sideMenuClose">&#10005;</button>
+    <div class="side-menu-inner">
+      <div class="side-menu-section">
+        <a href="#" class="side-menu-highlight">
+          <span class="side-menu-icon">◐</span>
+          Explore the World of Aura Botanica
+          <span class="side-menu-arrow">›</span>
+        </a>
+      </div>
+      <div class="side-menu-divider"></div>
+      <nav class="side-menu-nav">
+        <a href="#origins" class="side-menu-link" data-close>Origins <span>›</span></a>
+        <a href="#products" class="side-menu-link" data-close>Collection <span>›</span></a>
+        <a href="#story" class="side-menu-link" data-close>Our Story <span>›</span></a>
+        <a href="#ritual" class="side-menu-link" data-close>The Ritual <span>›</span></a>
+        <a href="#newsletter" class="side-menu-link" data-close>Journal <span>›</span></a>
+      </nav>
+      <div class="side-menu-footer">
+        <a href="#" class="side-menu-contact">Contact us</a>
+        <div class="side-menu-socials">
+          <a href="#" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1800&q=85&auto=format&fit=crop" alt="Coffee hero" class="hero-img" />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow reveal">RESERVE COLLECTION</p>
+      <h1 class="hero-title reveal">
+        <em>Exquisite Depth</em><br />
+        for Elevated Moments
+      </h1>
+      <p class="hero-sub reveal">Every cup, a journey. Every sip, a story.</p>
+      <a href="#products" class="hero-cta reveal">View All</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <section class="marquee-bar">
+    <div class="marquee-track">
+      <span>100% Arabica</span>
+      <span class="dot">·</span>
+      <span>Single Origin</span>
+      <span class="dot">·</span>
+      <span>Slow Roasted</span>
+      <span class="dot">·</span>
+      <span>Ethically Sourced</span>
+      <span class="dot">·</span>
+      <span>Master Blended</span>
+      <span class="dot">·</span>
+      <span>100% Arabica</span>
+      <span class="dot">·</span>
+      <span>Single Origin</span>
+      <span class="dot">·</span>
+      <span>Slow Roasted</span>
+      <span class="dot">·</span>
+      <span>Ethically Sourced</span>
+      <span class="dot">·</span>
+      <span>Master Blended</span>
+      <span class="dot">·</span>
+    </div>
+  </section>
+
+  <section class="intro">
+    <div class="intro-inner">
+      <div class="intro-label">Crafted in 2026</div>
+      <h2 class="intro-heading">
+        Born from a passion for perfection,<br />
+        <em>refined over generations.</em>
+      </h2>
+      <p class="intro-body">
+        Aura Botanica is not merely coffee — it is a statement of precision, craft, and obsession. Built for those who don’t just drink coffee, but experience it.
+      </p>
+    </div>
+  </section>
+
+  <section class="products" id="products">
+    <div class="products-header">
+      <div class="products-label">The Collection</div>
+      <h2 class="products-title">Crafted for Every Ritual</h2>
+      <a href="#" class="products-view-all">View All →</a>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card" data-index="1">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&q=80&auto=format&fit=crop" alt="Espresso Blend" class="product-img" />
+          <div class="product-overlay">
+            <button class="product-quick-btn">Quick View</button>
+          </div>
+          <div class="product-badge">Bestseller</div>
+        </div>
+        <div class="product-info">
+          <div class="product-origin">Brazil — Dark Roast</div>
+          <h3 class="product-name">Grand Espresso</h3>
+          <p class="product-desc">Bold, velvety, and deeply aromatic. Crafted for the connoisseur who demands nothing less than perfection in every shot.</p>
+          <div class="product-meta">
+            <div class="product-intensity">
+              <span class="intensity-label">Intensity</span>
+              <div class="intensity-bar"><div class="intensity-fill" style="width: 90%"></div></div>
+              <span class="intensity-num">9/10</span>
+            </div>
+            <button class="product-btn">Explore</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-index="2">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80&auto=format&fit=crop" alt="Morning Blend" class="product-img" />
+          <div class="product-overlay">
+            <button class="product-quick-btn">Quick View</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-origin">Colombia — Medium Roast</div>
+          <h3 class="product-name">Morning Ritual</h3>
+          <p class="product-desc">A harmonious balance of brightness and body — smooth, nuanced, with notes of caramel and wild berries.</p>
+          <div class="product-meta">
+            <div class="product-intensity">
+              <span class="intensity-label">Intensity</span>
+              <div class="intensity-bar"><div class="intensity-fill" style="width: 65%"></div></div>
+              <span class="intensity-num">6/10</span>
+            </div>
+            <button class="product-btn">Explore</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-index="3">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80&auto=format&fit=crop" alt="Ethiopia Natural" class="product-img" />
+          <div class="product-overlay">
+            <button class="product-quick-btn">Quick View</button>
+          </div>
+          <div class="product-badge new-badge">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-origin">Ethiopia — Light Roast</div>
+          <h3 class="product-name">Yirgacheffe Natural</h3>
+          <p class="product-desc">Floral, fruity, and extraordinarily complex. A rare natural process bean that blooms in the cup with jasmine and stone fruit.</p>
+          <div class="product-meta">
+            <div class="product-intensity">
+              <span class="intensity-label">Intensity</span>
+              <div class="intensity-bar"><div class="intensity-fill" style="width: 45%"></div></div>
+              <span class="intensity-num">4/10</span>
+            </div>
+            <button class="product-btn">Explore</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" data-index="4">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1509785307050-d4066910ec1e?w=600&q=80&auto=format&fit=crop" alt="Cold Brew" class="product-img" />
+          <div class="product-overlay">
+            <button class="product-quick-btn">Quick View</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-origin">Guatemala — Medium-Dark</div>
+          <h3 class="product-name">Cold Brew Reserve</h3>
+          <p class="product-desc">Smooth and rich with zero bitterness. Steeped for 24 hours to unlock a velvety depth perfect for warm days.</p>
+          <div class="product-meta">
+            <div class="product-intensity">
+              <span class="intensity-label">Intensity</span>
+              <div class="intensity-bar"><div class="intensity-fill" style="width: 75%"></div></div>
+              <span class="intensity-num">7/10</span>
+            </div>
+            <button class="product-btn">Explore</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="story-visual">
+      <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=900&q=85&auto=format&fit=crop" alt="Coffee roasting" class="story-img" />
+      <div class="story-float-card">
+        <div class="story-float-num">78</div>
+        <div class="story-float-label">Years of Mastery</div>
+      </div>
+    </div>
+    <div class="story-content">
+      <div class="story-label">Our Heritage</div>
+      <h2 class="story-title">
+        A pursuit of<br /><em>the extraordinary</em>
+      </h2>
+      <p class="story-body">
+        Built with precision and curiosity, Aura Botanica represents a modern take on coffee — where design meets experience.
+      </p>
+      <p class="story-body">
+        We travel to the source. We know our farmers by name. And we believe that the finest coffee in the world is not merely grown — it is nurtured, listened to, and understood.
+      </p>
+      <div class="story-stats">
+        <div class="stat">
+          <div class="stat-num">12+</div>
+          <div class="stat-label">Origins Sourced</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">40+</div>
+          <div class="stat-label">Countries Served</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Pure Arabica</div>
+        </div>
+      </div>
+      <a href="mailto:nitanshuemail@email.com" class="story-cta">Discover Our Story →</a>
+    </div>
+  </section>
+
+  <section class="origins" id="origins">
+    <div class="origins-header">
+      <div class="origins-label">Single Origins</div>
+      <h2 class="origins-title">Where the Journey Begins</h2>
+      <p class="origins-sub">Every origin tells a story shaped by soil, altitude, and the hands that tend it.</p>
+    </div>
+    <div class="origins-grid">
+
+      <div class="origin-item">
+        <div class="origin-img-wrap">
+          <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=700&q=80&auto=format&fit=crop" alt="Brazil" class="origin-img" />
+          <div class="origin-gradient"></div>
+        </div>
+        <div class="origin-content">
+          <div class="origin-flag">🇧🇷</div>
+          <h3 class="origin-name">Brazil</h3>
+          <p class="origin-profile">Nutty · Chocolate · Low Acidity</p>
+          <p class="origin-desc">The world's largest coffee producer. Brazil's vast plateaus yield beans with a naturally sweet, chocolatey character — the backbone of every great espresso blend.</p>
+          <div class="origin-altitude">Altitude: 800–1,300m</div>
+        </div>
+      </div>
+
+      <div class="origin-item origin-featured">
+        <div class="origin-img-wrap">
+          <img src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=700&q=80&auto=format&fit=crop" alt="Ethiopia" class="origin-img" />
+          <div class="origin-gradient"></div>
+        </div>
+        <div class="origin-content">
+          <div class="origin-flag">🇪🇹</div>
+          <h3 class="origin-name">Ethiopia</h3>
+          <p class="origin-profile">Floral · Berry · Wine-like</p>
+          <p class="origin-desc">The birthplace of coffee. Ethiopian beans carry a wild, ancestral complexity — where jasmine meets blueberry and the land itself is in the cup.</p>
+          <div class="origin-altitude">Altitude: 1,500–2,200m</div>
+        </div>
+      </div>
+
+      <div class="origin-item">
+        <div class="origin-img-wrap">
+          <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=700&q=80&auto=format&fit=crop" alt="Colombia" class="origin-img" />
+          <div class="origin-gradient"></div>
+        </div>
+        <div class="origin-content">
+          <div class="origin-flag">🇨🇴</div>
+          <h3 class="origin-name">Colombia</h3>
+          <p class="origin-profile">Caramel · Citrus · Balanced</p>
+          <p class="origin-desc">Grown in the misty Andean highlands, Colombian coffee is the gold standard — bright, clean, and elegantly balanced with a sweetness that lingers.</p>
+          <div class="origin-altitude">Altitude: 1,200–2,000m</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="ritual" id="ritual">
+    <div class="ritual-bg">
+      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1800&q=85&auto=format&fit=crop" alt="Coffee ritual" class="ritual-bg-img" />
+      <div class="ritual-overlay"></div>
+    </div>
+    <div class="ritual-content">
+      <div class="ritual-label">The KAFÉ Philosophy</div>
+      <h2 class="ritual-title">
+        Coffee is not a habit.<br />
+        <em>It is a ritual.</em>
+      </h2>
+      <p class="ritual-body">
+        We believe the moments surrounding your cup matter as much as the cup itself. The deliberate grind. The bloom of the pour. The quiet pause before the first sip. KAFÉ exists to make those moments extraordinary.
+      </p>
+      <a href="#products" class="ritual-cta">Explore the Collection</a>
+    </div>
+  </section>
+
+  <section class="formats">
+    <div class="formats-header">
+      <div class="formats-label">Brewing Methods</div>
+      <h2 class="formats-title">Your Coffee, Your Way</h2>
+    </div>
+    <div class="formats-grid">
+      <div class="format-card">
+        <div class="format-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+            <ellipse cx="32" cy="12" rx="16" ry="5"/>
+            <path d="M16 12 L14 52 Q14 56 32 56 Q50 56 50 52 L48 12"/>
+            <path d="M24 28 Q32 35 40 28"/>
+          </svg>
+        </div>
+        <h3 class="format-name">Whole Bean</h3>
+        <p class="format-desc">For those who demand peak freshness. Grind just before brewing to unlock the full spectrum of aroma and flavour locked within each bean.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+            <rect x="20" y="8" width="24" height="32" rx="4"/>
+            <path d="M20 20 L10 24 L10 36 L20 40"/>
+            <rect x="16" y="44" width="32" height="12" rx="3"/>
+          </svg>
+        </div>
+        <h3 class="format-name">Ground</h3>
+        <p class="format-desc">Pre-ground to the perfect consistency for filter, French press, or moka. Ready when you are, with no compromise on quality.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+            <rect x="18" y="10" width="28" height="36" rx="8"/>
+            <circle cx="32" cy="28" r="5"/>
+            <rect x="24" y="46" width="16" height="8" rx="3"/>
+          </svg>
+        </div>
+        <h3 class="format-name">Capsules</h3>
+        <p class="format-desc">Compatible with Nespresso® machines. The full depth of a KAFÉ blend in a single, perfectly measured capsule — luxurious simplicity.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+            <path d="M16 20 Q16 8 32 8 Q48 8 48 20 L48 52 Q48 56 32 56 Q16 56 16 52 Z"/>
+            <path d="M24 32 Q28 36 32 32 Q36 28 40 32"/>
+            <path d="M22 22 L42 22"/>
+          </svg>
+        </div>
+        <h3 class="format-name">Instant</h3>
+        <p class="format-desc">Freeze-dried at the peak of perfection. No machine required — just the ritual of a thoughtful cup wherever life takes you.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="testimonials-inner">
+      <div class="testimonials-label">Voices</div>
+      <h2 class="testimonials-title">What Our Drinkers Say</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <blockquote class="testimonial-quote">"The Grand Espresso is unlike anything I've had before. Rich, complex, and utterly satisfying. This is coffee as it should be."</blockquote>
+          <div class="testimonial-author">— Arjun M., Mumbai</div>
+        </div>
+        <div class="testimonial-card featured-testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <blockquote class="testimonial-quote">"I discovered the Yirgacheffe Natural and have not looked back. The floral notes are extraordinary — it's like drinking a garden in the most wonderful way."</blockquote>
+          <div class="testimonial-author">— Priya S., Bangalore</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <blockquote class="testimonial-quote">"KAFÉ has transformed my mornings completely. The Morning Ritual blend is so smooth and balanced — it's the only way I start my day now."</blockquote>
+          <div class="testimonial-author">— Rahul T., Delhi</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter" id="newsletter">
+    <div class="newsletter-inner">
+      <div class="newsletter-label">Nitanshu's Journal</div>
+      <h2 class="newsletter-title">
+        Stay close to the<br /><em>world of coffee.</em>
+      </h2>
+      <p class="newsletter-sub">Rare origins. Master blender notes. Exclusive releases. Delivered to your inbox — unhurriedly.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Your email address" class="newsletter-input" />
+        <button class="newsletter-btn">Join Now</button>
+      </div>
+      <p class="newsletter-legal">By subscribing, you agree to receive curated communications from KAFÉ. Unsubscribe at any time.</p>
+    </div>
+    <div class="newsletter-visual">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80&auto=format&fit=crop" alt="Coffee journal" />
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">NITANSHU’S KAFÉ</div>
+        <p class="footer-tagline">Exquisite Depth for Elevated Moments</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/nitanshuskafe/" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.facebook.com/nitanshuskafe/" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/channel/UC8W35q0J4X8XJQ0J4X8XJQ0" aria-label="YouTube">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/nitanshuskafe/" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Collection</h4>
+          <ul>
+            <li><a href="#">Espresso Blends</a></li>
+            <li><a href="#">Single Origins</a></li>
+            <li><a href="#">Capsules</a></li>
+            <li><a href="#">Instant Coffee</a></li>
+            <li><a href="#">Gift Sets</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Discover</h4>
+          <ul>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Origins & Sourcing</a></li>
+            <li><a href="#">The Roasting Process</a></li>
+            <li><a href="#">Brewing Guides</a></li>
+            <li><a href="#">Journal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Store Locator</a></li>
+            <li><a href="#">Wholesale</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2026 Aura Botanica. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
