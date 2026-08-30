@@ -204,7 +204,7 @@ def main() -> None:
 
     # serve
     p_serve = subparsers.add_parser("serve", parents=[parent_parser], help="Launch HTTP server & web UI")
-    p_serve.add_argument("--host", default="127.0.0.1", help="Host binding (default: 127.0.0.1)")
+    p_serve.add_argument("--host", default="0.0.0.0", help="Host binding (default: 0.0.0.0)")
     p_serve.add_argument("--port", type=int, default=8080, help="Port (default: 8080)")
 
     # benchmark

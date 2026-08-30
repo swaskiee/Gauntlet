@@ -1,0 +1,27 @@
+﻿{
+  "version": 2,
+  "builds": [
+    {
+      "src": "gauntlet.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "web/static/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/web/static/$1"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "gauntlet.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/web/static/index.html"
+    }
+  ]
+}
