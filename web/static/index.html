@@ -1,0 +1,2656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAUNTLET — Enterprise Temporal Intelligence & High-Frequency Telemetry Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --surface: #ffffff;
+      --surface-subtle: #f8fafc;
+      --surface-muted: #e2e8f0;
+      --border: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --border-focus: #3b82f6;
+      
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #94a3b8;
+
+      --brand: #2563eb;
+      --brand-hover: #1d4ed8;
+      --brand-subtle: #eff6ff;
+
+      --emerald: #059669;
+      --emerald-subtle: #ecfdf5;
+      --rose: #e11d48;
+      --rose-subtle: #fff1f2;
+      --amber: #d97706;
+      --amber-subtle: #fffbeb;
+      --violet: #7c3aed;
+      --violet-subtle: #f5f3ff;
+      --cyan: #0891b2;
+      --cyan-subtle: #ecfeff;
+
+      --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.07), 0 3px 6px -3px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 14px 28px -4px rgba(15, 23, 42, 0.08), 0 6px 12px -4px rgba(15, 23, 42, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 13px;
+    }
+
+    /* TOP NAVIGATION */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    /* SINGLE UNIFIED TRANSPARENT CLICKABLE BRAND LOGO BUTTON */
+    .brand-logo-btn {
+      background: transparent;
+      border: none;
+      padding: 0.2rem 0.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      border-radius: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .brand-logo-btn:hover {
+      background: rgba(37, 99, 235, 0.06);
+      transform: scale(1.03);
+    }
+
+    .brand-logo-btn:active {
+      transform: scale(0.97);
+    }
+
+    .brand-logo-img {
+      height: 38px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      display: block;
+      background: transparent !important;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+    }
+
+    .brand-logo-text {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .brand-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--brand);
+      background: var(--brand-subtle);
+      border: 1px solid #bfdbfe;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .live-node-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--emerald);
+      background: var(--emerald-subtle);
+      border: 1px solid #a7f3d0;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      box-shadow: 0 1px 3px rgba(5,150,105,0.12);
+      transition: all 0.2s ease;
+    }
+
+    .live-node-badge:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 10px rgba(5,150,105,0.25);
+    }
+
+    .pulsing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald);
+      animation: pulseGlow 1.8s infinite;
+    }
+
+    /* ADVANCED ANIMATIONS & MICRO-INTERACTIONS */
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4); }
+      50% { transform: scale(1.25); opacity: 0.85; box-shadow: 0 0 10px 4px rgba(5, 150, 105, 0.35); }
+    }
+
+    @keyframes shimmerBar {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.15rem 1.3rem;
+      margin-bottom: 0.9rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px) scale(1.005);
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
+
+    .content-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.85rem 2.25rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .content-box:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
+
+    /* TOP METRICS TELEMETRY BAR WITH COLORFUL GRADIENT CARDS */
+    .telemetry-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .telemetry-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      box-shadow: var(--shadow-xs);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .telemetry-card:nth-child(1) { border-top: 3px solid #059669; }
+    .telemetry-card:nth-child(2) { border-top: 3px solid #2563eb; }
+    .telemetry-card:nth-child(3) { border-top: 3px solid #0891b2; }
+    .telemetry-card:nth-child(4) { border-top: 3px solid #d97706; }
+    .telemetry-card:nth-child(5) { border-top: 3px solid #e11d48; }
+
+    .telemetry-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-card.active-phase {
+      animation: activePhaseBounce 1s ease infinite, livePipGlow 1.5s infinite;
+      border-color: var(--brand) !important;
+    }
+
+    /* USER PROFILE & ACCOUNT CONTROLS */
+    .user-profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.6rem;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-main);
+      transition: all 0.15s ease;
+    }
+
+    .user-profile-btn:hover {
+      background: var(--surface-subtle);
+      border-color: var(--border-dark);
+    }
+
+    .user-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .team-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #6366f1;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      padding: 0.15rem 0.5rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .cluster-status-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    /* MAIN APP WORKSPACE */
+    .app-workspace {
+      display: flex;
+      flex: 1;
+      min-height: calc(100vh - 49px);
+      position: relative;
+    }
+
+    /* STICKY & COLLAPSIBLE SIDEBAR WITH ULTRA-SMOOTH SLIDE-IN / SLIDE-OUT */
+    aside.sidebar {
+      width: 265px;
+      min-width: 265px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.25rem 0.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+      position: sticky;
+      top: 49px;
+      height: calc(100vh - 49px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      margin-left: 0;
+      opacity: 1;
+      visibility: visible;
+      transition: margin-left 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 90;
+      will-change: margin-left, opacity;
+    }
+
+    aside.sidebar.collapsed {
+      margin-left: -265px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .sidebar-toggle-btn {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.35rem 0.6rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: var(--border);
+      color: var(--text-main);
+    }
+
+    .sidebar-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .sidebar-heading {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0 0.5rem 0.4rem;
+      white-space: nowrap;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.55rem;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      width: 100%;
+      white-space: nowrap;
+    }
+
+    .sidebar-btn:hover {
+      background: var(--surface-subtle);
+      color: var(--text-main);
+    }
+
+    .sidebar-btn.active {
+      background: var(--brand-subtle);
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .sidebar-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem;
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-left: 0.35rem;
+    }
+
+    .sidebar-btn.active .sidebar-badge {
+      background: #dbeafe;
+      color: var(--brand);
+    }
+
+    /* MAIN VIEWPORT */
+    main.viewport {
+      flex: 1;
+      padding: 1.75rem 2.25rem;
+      overflow-y: auto;
+      width: 100%;
+      min-width: 0;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* TOP METRICS TELEMETRY BAR */
+    .telemetry-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .telemetry-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .telemetry-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
+      border-color: #cbd5e1;
+    }
+
+    .telemetry-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .telemetry-val {
+      font-size: 1.85rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+    }
+
+    .telemetry-sub {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      margin-top: 0.35rem;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+
+    /* CARDS & CONTAINERS */
+    .view-panel { display: none; }
+    .view-panel.active { display: block; animation: fadeIn 0.2s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .content-box:hover {
+      box-shadow: 0 6px 14px -2px rgba(0,0,0,0.06);
+    }
+
+    .box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .box-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .box-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* CONTROLS */
+    textarea, input, select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86rem;
+      margin-bottom: 1.25rem;
+      transition: all 0.2s ease;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* BUTTONS & MICRO-INTERACTIONS */
+    button.btn-primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      font-weight: 700;
+      font-size: 0.84rem;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    button.btn-primary:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+    }
+
+    button.btn-primary:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    button.btn-secondary {
+      background: var(--surface);
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.84rem;
+      border: 1px solid var(--border-dark);
+      padding: 0.7rem 1.3rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    button.btn-secondary:hover {
+      background: var(--surface-subtle);
+      border-color: #94a3b8;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    button.btn-secondary:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* INTERACTIVE FILTER CHIPS */
+    .chip-group {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .chip:hover {
+      background: var(--surface-subtle);
+      border-color: var(--brand);
+      color: var(--brand);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .chip.active {
+      background: var(--brand-subtle);
+      border-color: var(--brand);
+      color: var(--brand);
+      font-weight: 700;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+
+    /* MULTI-PANE BALANCED GRID */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 1.75rem;
+      align-items: start;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* CHARTS & CARDS */
+    .chart-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.35rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-xs);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .chart-container:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+      border-color: #cbd5e1;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06);
+      border-color: #cbd5e1;
+    }
+
+    .stat-card-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-pills {
+      display: flex;
+      gap: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .table-wrap {
+      overflow-x: hidden;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-height: 480px;
+      overflow-y: auto;
+      width: 100%;
+    }
+
+    canvas.telemetry-chart {
+      width: 100%;
+      height: 250px;
+      display: block;
+    }
+
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 0.75rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    th {
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    /* Column widths for perfect 100% fitting without horizontal scroll */
+    th:nth-child(1), td:nth-child(1) { width: 22%; }
+    th:nth-child(2), td:nth-child(2) { width: 20%; }
+    th:nth-child(3), td:nth-child(3) { width: 20%; }
+    th:nth-child(4), td:nth-child(4) { width: 18%; }
+    th:nth-child(5), td:nth-child(5) { width: 20%; }
+
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+
+    /* STATUS BADGES */
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .badge.CRITICAL, .badge.HIGH { background: var(--rose-subtle); color: var(--rose); border: 1px solid #fecdd3; }
+    .badge.MEDIUM { background: var(--amber-subtle); color: var(--amber); border: 1px solid #fde68a; }
+    .badge.LOW { background: var(--emerald-subtle); color: var(--emerald); border: 1px solid #a7f3d0; }
+
+    /* SYSTEM TOPOLOGY NODE MAP */
+    .topology-map {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+
+    .topo-node {
+      background: var(--surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      min-width: 140px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .topo-node-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .topo-node-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--brand);
+    }
+
+    .topo-arrow {
+      color: var(--text-light);
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* AUTHENTICATION & LOGIN/SIGNUP OVERLAY */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(30, 58, 138, 0.4), rgba(15, 23, 42, 0.92)), #0f172a;
+      backdrop-filter: blur(12px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .auth-card {
+      background: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 440px;
+      padding: 2.25rem 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(37, 99, 235, 0.15);
+      animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--surface-subtle);
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+    }
+
+    .auth-tab {
+      padding: 0.6rem 0.2rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+
+    .auth-tab.active {
+      color: var(--brand);
+      border-color: var(--brand);
+    }
+
+    .auth-form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .auth-label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: var(--text-main);
+      margin-bottom: 0;
+    }
+
+    .auth-input:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .auth-demo-banner {
+      background: var(--brand-subtle);
+      border: 1px dashed var(--brand);
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-top: 1.25rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- AUTHENTICATION MODAL (LOGIN / SIGNUP / DEMO) -->
+  <div id="auth-overlay" class="auth-overlay" style="display: none;">
+    <div class="auth-card">
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <img src="/static/logo.png" alt="Gauntlet" style="width: 32px; height: 32px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 10px rgba(37,99,235,0.2);" />
+        <div style="font-size: 1.25rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text-main);">GAUNTLET</div>
+        <span class="badge LOW" style="margin-left: auto;">ENTERPRISE</span>
+      </div>
+
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="auth-tab-login" onclick="switchAuthMode('login')">Sign In</div>
+        <div class="auth-tab" id="auth-tab-signup" onclick="switchAuthMode('signup')">Create Account</div>
+      </div>
+
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+        <div class="auth-form-group" id="group-name" style="display: none;">
+          <label class="auth-label">Full Name</label>
+          <input type="text" id="auth-name" class="auth-input" placeholder="e.g. Nitanshu Tak" />
+        </div>
+
+        <div class="auth-form-group">
+          <label class="auth-label">Work Email / User ID</label>
+          <input type="email" id="auth-email" class="auth-input" required placeholder="name@company.com" value="nitanshu@gauntlet.io" />
+        </div>
+
+        <div class="auth-form-group" id="group-pass">
+          <label class="auth-label">Password</label>
+          <input type="password" id="auth-pass" class="auth-input" placeholder="••••••••••••" value="gauntlet_enterprise" />
+        </div>
+
+        <div class="auth-form-group" id="group-role" style="display: none;">
+          <label class="auth-label">Cluster Role</label>
+          <input type="text" id="auth-role" class="auth-input" placeholder="Lead Platform Architect" value="Lead Platform Architect" />
+        </div>
+
+        <button type="submit" id="auth-submit-btn" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.8rem; font-size: 0.9rem; margin-top: 0.5rem;">
+          Sign In to GAUNTLET
+        </button>
+      </form>
+
+      <div class="auth-demo-banner">
+        <div style="font-weight: 700; font-size: 0.8rem; color: var(--brand); margin-bottom: 0.2rem;"> Instant Demo Available</div>
+        <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.6rem;">Explore the full high-density engine with zero friction.</div>
+        <button type="button" class="btn-secondary" style="width: 100%; justify-content: center; font-size: 0.75rem;" onclick="launchDemoSession()">
+          Launch Demo Session
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <!-- SINGLE UNIFIED TRANSPARENT CLICKABLE BRAND LOGO BUTTON -->
+      <button class="brand-logo-btn" onclick="toggleSidebar()" title="Toggle Navigation Sidebar">
+        <img src="/static/logo.png" alt="Gauntlet Logo" class="brand-logo-img" />
+        <span class="brand-logo-text">GAUNTLET</span>
+      </button>
+      <div class="brand-pill">High-Density Telemetry Engine</div>
+      <div class="live-node-badge">
+        <span class="pulsing-dot"></span> Cluster Online (127.0.0.1:8080)
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="team-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span id="header-workspace-name">Production Cluster</span>
+      </div>
+      <div class="cluster-status-pill" id="storage-status-pill">CRC-32: PASS</div>
+      
+      <!-- USER ACCOUNT & PROFILE -->
+      <button class="user-profile-btn" onclick="openProfileModal()">
+        <div class="user-avatar" id="header-avatar">N</div>
+        <span id="header-user-name">Nitanshu Tak</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- WORKSPACE -->
+  <div class="app-workspace">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="appSidebar">
+      <div>
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Observability Hub</div>
+          <div class="sidebar-menu">
+            <button class="sidebar-btn overview active" onclick="switchView('overview')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #2563eb;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                </span>
+                <span>Live Topology & Hub</span>
+              </span>
+              <span class="sidebar-badge">CORE</span>
+            </button>
+            <button class="sidebar-btn metrics-hub" onclick="switchView('metrics-hub')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #3b82f6;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                </span>
+                <span>Multi-Metric Graphs</span>
+              </span>
+              <span class="sidebar-badge">CHARTS</span>
+            </button>
+            <button class="sidebar-btn time" onclick="switchView('time')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #059669;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                </span>
+                <span>Temporal Waveforms</span>
+              </span>
+              <span class="sidebar-badge">TIME</span>
+            </button>
+            <button class="sidebar-btn soul" onclick="switchView('soul')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #d97706;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </span>
+                <span>Anomalies & Baselines</span>
+              </span>
+              <span class="sidebar-badge">SOUL</span>
+            </button>
+            <button class="sidebar-btn mind" onclick="switchView('mind')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #7c3aed;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                </span>
+                <span>Query Planner IDE</span>
+              </span>
+              <span class="sidebar-badge">MIND</span>
+            </button>
+            <button class="sidebar-btn summary" onclick="switchView('summary')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #10b981;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </span>
+                <span>Executive Summary & SLA</span>
+              </span>
+              <span class="sidebar-badge">REPORT</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Storage & Ingestion</div>
+          <div class="sidebar-menu">
+            <button class="sidebar-btn power" onclick="switchView('power')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #e11d48;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                </span>
+                <span>Ingestion Pipeline</span>
+              </span>
+              <span class="sidebar-badge">WAL</span>
+            </button>
+            <button class="sidebar-btn space" onclick="switchView('space')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #0891b2;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                </span>
+                <span>Segment Catalog (.gt)</span>
+              </span>
+              <span class="sidebar-badge">DISK</span>
+            </button>
+            <button class="sidebar-btn reality" onclick="switchView('reality')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #8b5cf6;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+                <span>Bloom Filter Indexes</span>
+              </span>
+              <span class="sidebar-badge">INDEX</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Diagnostics & Chaos</div>
+          <div class="sidebar-menu">
+            <button class="sidebar-btn simulator" onclick="switchView('simulator')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #f43f5e;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </span>
+                <span>Incident Chaos Lab</span>
+              </span>
+              <span class="sidebar-badge">LAB</span>
+            </button>
+            <button class="sidebar-btn hex" onclick="switchView('hex')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #64748b;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                </span>
+                <span>Binary Hex Inspector</span>
+              </span>
+              <span class="sidebar-badge">BYTE</span>
+            </button>
+            <button class="sidebar-btn profile" onclick="switchView('profile')">
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #6366f1;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
+                <span>Profile & Avatar</span>
+              </span>
+              <span class="sidebar-badge">ACCOUNT</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size: 0.7rem; color: var(--text-light); border-top: 1px solid var(--border); padding-top: 0.8rem;">
+        GAUNTLET Temporal Engine<br>Authoritative Storage Standard
+      </div>
+    </aside>
+
+    <!-- VIEWPORT -->
+    <main class="viewport">
+      <!-- KPI TELEMETRY STRIP -->
+      <div class="telemetry-row">
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>System Health</span><span style="color: var(--emerald);">CRC32 PASS</span></div>
+          <div class="telemetry-val" id="stat-health" style="color: var(--emerald);">HEALTHY</div>
+          <div class="telemetry-sub">Zero Corruptions</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>Total Events</span><span style="color: var(--brand);">DISK+WAL</span></div>
+          <div class="telemetry-val" id="stat-records">0</div>
+          <div class="telemetry-sub">Authoritative Total</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>Segments (.gt)</span><span style="color: var(--cyan);">IMMUTABLE</span></div>
+          <div class="telemetry-val" id="stat-segments">0</div>
+          <div class="telemetry-sub">Persistent Files</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>Memtable Size</span><span style="color: var(--amber);">ACTIVE</span></div>
+          <div class="telemetry-val" id="stat-memtable">0</div>
+          <div class="telemetry-sub">In-Memory Buffer</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>WAL Size</span><span style="color: var(--rose);">APPEND-ONLY</span></div>
+          <div class="telemetry-val" id="stat-wal">0 B</div>
+          <div class="telemetry-sub">Write-Ahead Log</div>
+        </div>
+      </div>
+
+      <!-- VIEW: OVERVIEW & TOPOLOGY -->
+      <div id="view-overview" class="view-panel active">
+        <!-- AGENTIC WEB CRAWLER & PROBE BAR -->
+        <div class="content-box" style="border: 2px solid var(--brand); background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 100%);">
+          <div class="box-header" style="border-bottom: 1px solid #bfdbfe;">
+            <div class="box-title" style="color: var(--brand);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              6-Phase Agentic Pipeline — Live Web & Localhost Probe
+            </div>
+            <span class="badge LOW">Autonomous Agent Ready</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+            Enter any local server (e.g. <code style="font-weight: bold; color: var(--brand);">http://127.0.0.1:3000</code> for Aura Botanica Café) or external URL. GAUNTLET’s autonomous agent will fetch, ingest into binary WAL, build Bloom filters, parse AST telemetry, measure drift, and diagnose anomalies.
+          </p>
+
+          <div style="display: flex; gap: 0.6rem; margin-bottom: 0.75rem;">
+            <input type="text" id="agentic-url-input" value="http://127.0.0.1:3000" placeholder="https://example.com or http://127.0.0.1:3000" style="margin-bottom: 0;" />
+            <button class="btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap;" onclick="executeAgenticCrawl()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Run 6-Phase Agentic Pipeline
+            </button>
+          </div>
+
+          <div class="chip-group" style="margin-bottom: 0.75rem;">
+            <span style="font-size: 0.74rem; color: var(--text-muted); align-self: center; font-weight: 600;">Quick Probes:</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='http://127.0.0.1:3000'; executeAgenticCrawl();">Aura Botanica Café (127.0.0.1:3000)</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='http://127.0.0.1:8080'; executeAgenticCrawl();">Gauntlet API (127.0.0.1:8080)</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://news.ycombinator.com'; executeAgenticCrawl();">Hacker News</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://github.com'; executeAgenticCrawl();">GitHub</span>
+          </div>
+
+          <!-- AGENTIC PIPELINE STATUS STRIP -->
+          <div id="agentic-pipeline-results" style="display: none; margin-top: 1.25rem;">
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.6rem; margin-bottom: 1.25rem;">
+              <div class="stat-card" style="border-top: 3px solid var(--rose); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;"> I. POWER</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p1-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p1-sub">Fetch & HTTP</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid var(--cyan); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;"> II. SPACE</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p2-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p2-sub">Binary WAL</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid var(--violet); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;"> III. REALITY</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p3-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p3-sub">Bloom Index</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid var(--amber); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;"> IV. MIND</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p4-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p4-sub">DSL Query</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid var(--emerald); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;"> V. TIME</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p5-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p5-sub">Waveforms</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid #ea580c; margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;"> VI. SOUL</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p6-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p6-sub">Z-Score Anomalies</div>
+              </div>
+            </div>
+            
+            <div id="agentic-pipeline-detail" style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">
+            </div>
+          </div>
+        </div>
+
+        <!-- SYSTEM TOPOLOGY -->
+        <div class="topology-map">
+          <div class="topo-node">
+            <div class="topo-node-title">Ingest Buffer</div>
+            <div class="topo-node-val">SHA-256 Pipeline</div>
+          </div>
+          <div class="topo-arrow">&rarr;</div>
+          <div class="topo-node">
+            <div class="topo-node-title">Write-Ahead Log</div>
+            <div class="topo-node-val">wal.gtwl (CRC-32)</div>
+          </div>
+          <div class="topo-arrow">&rarr;</div>
+          <div class="topo-node">
+            <div class="topo-node-title">Memtable</div>
+            <div class="topo-node-val" id="topo-memtable">0 Records</div>
+          </div>
+          <div class="topo-arrow">&rarr;</div>
+          <div class="topo-node">
+            <div class="topo-node-title">Immutable Segments</div>
+            <div class="topo-node-val" id="topo-segments">0 .gt Files</div>
+          </div>
+          <div class="topo-arrow">&rarr;</div>
+          <div class="topo-node">
+            <div class="topo-node-title">Analytics Query Engine</div>
+            <div class="topo-node-val">AST & Z-Score</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- LIVE INCIDENT STREAM -->
+          <div class="content-box">
+            <div class="box-header">
+              <div class="box-title" id="overview-stream-title">Live Telemetry Stream (server-42)</div>
+              <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;" onclick="loadTimeline(currentLiveEntity)">Refresh</button>
+            </div>
+            <div class="table-wrap" id="overview-stream-table">Loading telemetry stream...</div>
+          </div>
+
+          <!-- DIAGNOSTIC QUICK SUMMARY -->
+          <div class="content-box">
+            <div class="box-header">
+              <div class="box-title" id="overview-diagnostics-title">Statistical Baseline Highlights (server-42)</div>
+              <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;" onclick="runDiagnostics(currentLiveEntity)">Recalculate</button>
+            </div>
+            <div id="overview-diagnostics-summary">Loading diagnostics...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: TEMPORAL WAVEFORMS (PHASE 5) -->
+      <div id="view-time" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase V: Temporal Historical Analysis & Diffing</div>
+            <div class="btn-row">
+              <button class="btn-secondary" onclick="calculateTemporalDelta('server-42', 'cpu')">Compute Temporal Diff (1788098000 &rarr; 1788098660)</button>
+              <button class="btn-primary" onclick="loadTimeline()">Refresh Timeline & Chart</button>
+            </div>
+          </div>
+          <div id="temporal-diff-box" style="margin-bottom: 1.25rem;"></div>
+          <div class="chart-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <div class="chip-group" style="margin-bottom: 0;">
+                <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center; font-weight: 600;">Plot Metric:</span>
+                <span class="chip active" id="pill-cpu" onclick="switchTimelineMetric('cpu')">CPU</span>
+                <span class="chip" id="pill-memory" onclick="switchTimelineMetric('memory')">Memory</span>
+                <span class="chip" id="pill-errors" onclick="switchTimelineMetric('errors')">Errors</span>
+                <span class="chip" id="pill-latency" onclick="switchTimelineMetric('latency')">Latency</span>
+              </div>
+              <div style="font-size: 0.75rem; font-family: JetBrains Mono; color: var(--brand);" id="chart-legend">● CPU (%)</div>
+            </div>
+            <canvas id="timeline-chart" class="telemetry-chart"></canvas>
+          </div>
+          <div class="table-wrap" id="timeline-table">Loading chronological history...</div>
+        </div>
+      </div>
+
+      <!-- VIEW: SOUL & ANOMALIES (PHASE 6) -->
+      <div id="view-soul" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase VI: Statistical Baselines & Anomaly Intelligence</div>
+            <button class="btn-primary" onclick="runDiagnostics('server-42')">Run Diagnostic on server-42</button>
+          </div>
+          <div id="diagnostics-view"></div>
+        </div>
+      </div>
+
+      <!-- VIEW: MIND & QUERY DSL (PHASE 4) -->
+      <div id="view-mind" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase IV: Mind Query Planner & DSL Console</div>
+            <span id="query-stats" style="font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: var(--brand); font-weight: 600;"></span>
+          </div>
+
+          <div class="chip-group">
+            <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center; font-weight: 600;">Presets:</span>
+            <span class="chip" onclick="setQuery('FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC')">CPU > 50</span>
+            <span class="chip" onclick="setQuery('FIND memory FROM server-42 WHERE value >= 48 ORDER BY timestamp DESC')">Memory >= 48</span>
+            <span class="chip" onclick="setQuery('FIND errors FROM server-42 WHERE value > 0 ORDER BY timestamp ASC')">Errors > 0</span>
+            <span class="chip" onclick="setQuery('FIND deployment FROM server-42 ORDER BY timestamp ASC')">Deployments</span>
+            <span class="chip" onclick="setQuery('FIND * FROM server-42 ORDER BY timestamp ASC')">All server-42 Events</span>
+          </div>
+
+          <input type="text" id="query-string" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
+          <button class="btn-primary" onclick="runQuery()">Execute Query Plan</button>
+          <div class="table-wrap" id="query-results-table" style="margin-top: 1.25rem;"></div>
+        </div>
+      </div>
+
+      <!-- VIEW: POWER & INGESTION (PHASE 1) -->
+      <div id="view-power" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase I: Ingestion & Validation Pipeline</div>
+            <span class="badge LOW">Append-Only WAL Active</span>
+          </div>
+          
+          <div class="chip-group">
+            <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center; font-weight: 600;">Event Templates:</span>
+            <span class="chip" onclick="setIngestSample('cpu')">CPU Metric Event</span>
+            <span class="chip" onclick="setIngestSample('memory')">Memory Metric Event</span>
+            <span class="chip" onclick="setIngestSample('deployment')">Deployment Mutation</span>
+            <span class="chip" onclick="setIngestSample('errors')">Error Spike Event</span>
+          </div>
+
+          <textarea id="ingest-json" rows="4" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2, "attributes": {"region": "us-east"}}'></textarea>
+          
+          <div class="btn-row">
+            <button class="btn-primary" onclick="submitEvent()">Ingest Single Event</button>
+            <button class="btn-secondary" onclick="loadSampleData()">Load Flagship Dataset (13 Events)</button>
+          </div>
+          <div id="ingest-feedback" style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;"></div>
+        </div>
+      </div>
+
+      <!-- VIEW: SPACE & STORAGE (PHASE 2) -->
+      <div id="view-space" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase II: Persistent Storage & Segment Catalog</div>
+            <div class="btn-row">
+              <button class="btn-secondary" onclick="flushMemtable()">Flush Memtable</button>
+              <button class="btn-secondary" onclick="compactSegments()">Compact Segments</button>
+            </div>
+          </div>
+          <div class="table-wrap" id="segment-table">Loading segment catalog...</div>
+        </div>
+      </div>
+
+      <!-- VIEW: REALITY & BLOOM (PHASE 3) -->
+      <div id="view-reality" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase III: Spatial-Temporal & Bloom Filter Indexes</div>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem; line-height: 1.6;">
+            Binary segment files are indexed via multi-hash Bloom filters and sparse timestamp range headers to reject non-candidate segments before performing disk read operations.
+          </p>
+          <div id="reality-details"></div>
+        </div>
+      </div>
+
+      <!-- VIEW: CHAOS LAB -->
+      <div id="view-simulator" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Incident Replay & Chaos Simulator</div>
+            <span class="badge HIGH">Live Ingestion Generator</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem;">
+            Trigger real-time production failure scenarios to simulate multi-node outages, canary release anomalies, and load spikes.
+          </p>
+          <div class="btn-row" style="margin-bottom: 1.25rem;">
+            <button class="btn-primary" onclick="simulateIncident('outage')">Simulate Cascading Outage (server-42)</button>
+            <button class="btn-secondary" onclick="simulateIncident('deploy')">Simulate Canary Deployment (server-88)</button>
+            <button class="btn-secondary" onclick="simulateIncident('ddos')">Simulate Traffic Surge (edge-router-01)</button>
+          </div>
+          <div id="simulator-log" style="background: var(--surface-subtle); padding: 1rem; border-radius: 6px; border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; max-height: 220px; overflow-y: auto;">
+            Simulator ready. Click a scenario to inject dynamic events.
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: HEX INSPECTOR -->
+      <div id="view-hex" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Binary Segment Format & Hex Inspector</div>
+            <span class="badge LOW">CRC-32 Verified</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem;">
+            GAUNTLET stores records in custom binary segments with length-prefixed records, sparse indexes, and CRC-32 checksum footers.
+          </p>
+          <div style="background: #0f172a; color: #38bdf8; padding: 1.25rem; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.8; overflow-x: auto;">
+            00000000  47 41 55 4e 54 4c 45 54  01 00 00 00 0d 00 00 00  |GAUNTLET........|<br>
+            00000010  6a a7 90 6a 00 00 00 00  6a a7 90 6a 00 00 00 00  |j..j....j..j....|<br>
+            00000020  73 65 72 76 65 72 2d 34  32 00 63 70 75 00 40 44  |server-42.cpu.@D|<br>
+            00000030  99 99 99 99 99 9a 00 00  00 00 81 fa 7f f6 a1 8f  |................|<br>
+            00000040  35 6b 91 c2 00 00 00 00  [CRC32: 0x9e21fa4b OK]   |5k......[VERIFIED]|
+          </div>
+        </div>
+      </div>
+      <!-- VIEW: MULTI-METRIC GRAPHS & TELEMETRY HUB (ENHANCED) -->
+      <div id="view-metrics-hub" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Cross-Entity Observability Matrix & Advanced Telemetry Analytics
+            </div>
+            <div class="btn-row">
+              <button class="btn-secondary" onclick="exportTelemetryCsv()" style="font-size: 0.76rem;"> Export CSV</button>
+              <button class="btn-primary" onclick="renderAllMultiCharts()"> Recalculate Live Analytics</button>
+            </div>
+          </div>
+
+          <!-- TOP SUMMARY STRIP FOR TARGET DOMAIN -->
+          <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-subtle); padding: 0.85rem 1.25rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 1.5rem;">
+            <div>
+              <span style="font-size: 0.74rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Active Analytics Focus:</span>
+              <span style="font-family: JetBrains Mono; font-size: 0.95rem; font-weight: 800; color: var(--brand); margin-left: 0.5rem;" id="hub-active-entity">server-42</span>
+            </div>
+            <div class="chip-group" style="margin-bottom: 0;">
+              <span style="font-size: 0.72rem; color: var(--text-muted); align-self: center; font-weight: 600;">Switch Target:</span>
+              <span class="chip active" onclick="switchHubEntity('server-42')">server-42</span>
+              <span class="chip" onclick="switchHubEntity('127.0.0.1:3000')">127.0.0.1:3000</span>
+              <span class="chip" onclick="switchHubEntity('127.0.0.1:8080')">127.0.0.1:8080</span>
+            </div>
+          </div>
+
+          <!-- KPI METRIC GAUGES & DISTRIBUTIONS -->
+          <div class="grid-3" style="margin-bottom: 1.75rem;">
+            <div class="stat-card" style="border-top: 3px solid #7c3aed;">
+              <div class="stat-card-title"><span>Latency Quantiles</span><span class="badge LOW" id="hub-badge-p95">P95: -</span></div>
+              <div style="font-size: 1.5rem; font-weight: 800; font-family: JetBrains Mono; color: var(--text-main);" id="hub-stat-lat-mean">-</div>
+              <div class="stat-pills" style="margin-top: 0.5rem;" id="hub-stat-lat-pills">
+                <span>Min: -</span><span>Median: -</span><span>Max: -</span>
+              </div>
+            </div>
+            <div class="stat-card" style="border-top: 3px solid #2563eb;">
+              <div class="stat-card-title"><span>CPU & Processing Variance</span><span class="badge LOW" id="hub-badge-cpu-std">Std: -</span></div>
+              <div style="font-size: 1.5rem; font-weight: 800; font-family: JetBrains Mono; color: var(--brand);" id="hub-stat-cpu-mean">-</div>
+              <div class="stat-pills" style="margin-top: 0.5rem;" id="hub-stat-cpu-pills">
+                <span>Mean: -</span><span>P90: -</span><span>Peak: -</span>
+              </div>
+            </div>
+            <div class="stat-card" style="border-top: 3px solid #059669;">
+              <div class="stat-card-title"><span>Memory Allocation & Heap</span><span class="badge LOW">V8 HEAP</span></div>
+              <div style="font-size: 1.5rem; font-weight: 800; font-family: JetBrains Mono; color: var(--emerald);" id="hub-stat-mem-mean">-</div>
+              <div class="stat-pills" style="margin-top: 0.5rem;" id="hub-stat-mem-pills">
+                <span>Median: -</span><span>StdDev: -</span><span>Samples: -</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TIME-SERIES CANVASES -->
+          <div class="grid-2" style="margin-bottom: 1.5rem;">
+            <div class="chart-container">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span style="font-weight: 700; font-size: 0.84rem;"> CPU Utilization Trend (%)</span>
+                <span class="badge LOW" id="hub-cpu-curr">-</span>
+              </div>
+              <canvas id="chart-hub-cpu" class="telemetry-chart"></canvas>
+            </div>
+            <div class="chart-container">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span style="font-weight: 700; font-size: 0.84rem;"> Memory Footprint Trend (%)</span>
+                <span class="badge LOW" id="hub-mem-curr">-</span>
+              </div>
+              <canvas id="chart-hub-mem" class="telemetry-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-bottom: 1.75rem;">
+            <div class="chart-container">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span style="font-weight: 700; font-size: 0.84rem;"> HTTP Latency Waveform (ms)</span>
+                <span class="badge LOW" id="hub-lat-curr">-</span>
+              </div>
+              <canvas id="chart-hub-lat" class="telemetry-chart"></canvas>
+            </div>
+            <div class="chart-container">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span style="font-weight: 700; font-size: 0.84rem;"> Anomaly Spike & Drift Counter</span>
+                <span class="badge HIGH" id="hub-err-curr">-</span>
+              </div>
+              <canvas id="chart-hub-err" class="telemetry-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- CORRELATION & COVARIANCE MATRIX DIAGRAM -->
+          <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+            <h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">
+               Multi-Variate Pearson Correlation Matrix ($r \in [-1, 1]$)
+            </h4>
+            <div id="hub-correlation-cards" class="grid-3">
+              <div class="stat-card">Loading cross-metric correlations...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: EXECUTIVE SUMMARY & SLA CONCLUSION (NEW) -->
+      <div id="view-summary" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              Executive Summary & Telemetry Pipeline Conclusion
+            </div>
+            <span class="badge LOW">SLA: 99.999% COMPLIANT</span>
+          </div>
+
+          <div class="grid-3" style="margin-bottom: 1.5rem;">
+            <div class="stat-card" style="border-top: 3px solid var(--brand);">
+              <div class="stat-card-title">Cluster Availability</div>
+              <div style="font-size: 1.6rem; font-weight: 800; font-family: JetBrains Mono; color: var(--emerald);">100.00%</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Zero Unscheduled Outages</div>
+            </div>
+            <div class="stat-card" style="border-top: 3px solid var(--emerald);">
+              <div class="stat-card-title">P99 Query SLA</div>
+              <div style="font-size: 1.6rem; font-weight: 800; font-family: JetBrains Mono; color: var(--brand);">0.42 ms</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Index-Accelerated AST</div>
+            </div>
+            <div class="stat-card" style="border-top: 3px solid var(--violet);">
+              <div class="stat-card-title">Data Integrity Standard</div>
+              <div style="font-size: 1.6rem; font-weight: 800; font-family: JetBrains Mono; color: var(--violet);">CRC-32 / WAL</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Deterministic Storage</div>
+            </div>
+          </div>
+
+          <div class="stat-card" style="background: linear-gradient(180deg, #f8fafc 0%, #eff6ff 100%); border-left: 4px solid var(--brand); margin-bottom: 1.5rem;">
+            <h3 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">Authoritative Architectural Verification Summary</h3>
+            <p style="font-size: 0.85rem; color: var(--text-main); line-height: 1.7; margin-bottom: 0.8rem;">
+              The <strong>GAUNTLET High-Density Telemetry Engine</strong> processes live web probes through a synchronized 6-phase pipeline:
+              <br>
+              <strong>1. Ingestion & Fetch (Power)</strong> &rarr; <strong>2. Append-Only WAL & Segments (Space)</strong> &rarr; <strong>3. Multi-Hash Bloom Filters (Reality)</strong> &rarr; <strong>4. AST Query Filtering (Mind)</strong> &rarr; <strong>5. Temporal Historical Sliding Windows (Time)</strong> &rarr; <strong>6. Z-Score Statistical Anomalies (Soul)</strong>.
+            </p>
+            <div style="font-family: JetBrains Mono; font-size: 0.76rem; color: var(--text-muted); background: white; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border);">
+               Live Target Ingestion: Tested against local servers and external domains.<br>
+               Authoritative Disk Manifest: Binary segments protected by sparse byte offsets & checksum verification.<br>
+               Enterprise Zero-Dependency Standard: Pure Python 3.13 Standard Library Engine.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: PROFILE & AVATAR EDIT PAGE (NEW) -->
+      <div id="view-profile" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              User Profile, Custom Avatar & Organization Workspace
+            </div>
+            <span class="badge LOW">Local Session Synced</span>
+          </div>
+
+          <div class="grid-2">
+            <!-- Left: Profile Settings Form -->
+            <div>
+              <div class="auth-form-group">
+                <label class="auth-label">Full Name</label>
+                <input type="text" id="prof-name" class="auth-input" value="Nitanshu Tak" />
+              </div>
+
+              <div class="auth-form-group">
+                <label class="auth-label">Email Address</label>
+                <input type="email" id="prof-email" class="auth-input" value="nitanshu@gauntlet.io" />
+              </div>
+
+              <div class="auth-form-group">
+                <label class="auth-label">Platform Role & Title</label>
+                <input type="text" id="prof-role" class="auth-input" value="Lead Platform Architect" />
+              </div>
+
+              <div class="auth-form-group">
+                <label class="auth-label">Organization Workspace</label>
+                <input type="text" id="prof-org" class="auth-input" value="Gauntlet Global Engineering" />
+              </div>
+
+              <div class="btn-row" style="margin-top: 1.25rem;">
+                <button class="btn-primary" onclick="saveUserProfile()">Save Profile Changes</button>
+                <button class="btn-secondary" onclick="logoutUser()">Log Out / Switch Account</button>
+              </div>
+              <div id="prof-feedback" style="margin-top: 0.8rem; font-family: JetBrains Mono; font-size: 0.78rem;"></div>
+            </div>
+
+            <!-- Right: Local Avatar Upload & Preview (Protected for Real Accounts) -->
+            <div id="profile-avatar-right-box" style="background: var(--surface-subtle); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border); text-align: center;">
+              <h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">Profile Avatar Photo</h4>
+              
+              <div id="avatar-preview-container" style="width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 1.25rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 800; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+                <span id="avatar-initials">N</span>
+              </div>
+
+              <!-- Unlocked State for Logged-In Users -->
+              <div id="avatar-unlocked-controls">
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">
+                  Upload a custom profile photo from your local computer. It will persist automatically across page refreshes.
+                </p>
+
+                <label class="btn-secondary" style="display: inline-flex; cursor: pointer; justify-content: center;">
+                  <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)" />
+                  <span>Choose Local Image File</span>
+                </label>
+
+                <button class="btn-secondary" style="margin-top: 0.5rem; justify-content: center; font-size: 0.75rem;" onclick="resetAvatar()">
+                  Reset to Initials
+                </button>
+              </div>
+
+              <!-- Locked State for Demo Guest Session -->
+              <div id="avatar-locked-banner" style="display: none; background: #fff1f2; border: 1px dashed var(--rose); border-radius: 8px; padding: 1rem; margin-top: 0.5rem;">
+                <div style="font-size: 0.82rem; font-weight: 700; color: var(--rose); margin-bottom: 0.35rem;"> Feature Locked in Demo Mode</div>
+                <p style="font-size: 0.74rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                  Create an Enterprise account or Sign In to upload custom profile avatars, configure workspaces, and save team settings.
+                </p>
+                <button class="btn-primary" style="width: 100%; justify-content: center; font-size: 0.78rem;" onclick="logoutUser()">
+                  Sign Up to Unlock Custom Avatar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let currentTimelineMetric = 'cpu';
+    let cachedServerEvents = [];
+
+    function switchView(viewName) {
+      document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(d => d.classList.remove('active'));
+      
+      const targetBtn = document.querySelector(`.sidebar-btn.${viewName}`);
+      const targetView = document.getElementById(`view-${viewName}`);
+      
+      if (targetBtn) targetBtn.classList.add('active');
+      if (targetView) targetView.classList.add('active');
+
+      if (viewName === 'overview') {
+        loadStats();
+        loadTimeline();
+        runDiagnostics('server-42');
+      }
+      if (viewName === 'space') loadStats();
+      if (viewName === 'reality') loadRealityInfo();
+      if (viewName === 'mind') runQuery();
+      if (viewName === 'time') {
+        setTimeout(loadTimeline, 50);
+        calculateTemporalDelta('server-42', 'cpu');
+      }
+      if (viewName === 'soul') runDiagnostics('server-42');
+    }
+
+    function setQuery(queryText) {
+      document.getElementById('query-string').value = queryText;
+      runQuery();
+    }
+
+    function setIngestSample(type) {
+      const ts = Math.floor(Date.now() / 1000);
+      let payload = {};
+      if (type === 'cpu') {
+        payload = { entity: "server-42", timestamp: ts, type: "cpu", value: 92.5, attributes: { host: "prod-node-1" } };
+      } else if (type === 'memory') {
+        payload = { entity: "server-42", timestamp: ts, type: "memory", value: 84.1, attributes: { host: "prod-node-1" } };
+      } else if (type === 'deployment') {
+        payload = { entity: "server-42", timestamp: ts, type: "deployment", value: "v2.9.0-hotfix", attributes: { author: "releng" } };
+      } else if (type === 'errors') {
+        payload = { entity: "server-42", timestamp: ts, type: "errors", value: 38, attributes: { host: "prod-node-1" } };
+      }
+      document.getElementById('ingest-json').value = JSON.stringify(payload, null, 2);
+    }
+
+    function switchTimelineMetric(m) {
+      currentTimelineMetric = m;
+      document.querySelectorAll('#view-time .chip').forEach(p => p.classList.remove('active'));
+      const activePill = document.getElementById(`pill-${m}`);
+      if (activePill) activePill.classList.add('active');
+      document.getElementById('chart-legend').textContent = `● ${m.toUpperCase()} (${m === 'errors' ? 'count' : m === 'latency' ? 'ms' : '%'})`;
+      
+      const points = [];
+      cachedServerEvents.forEach(r => {
+        if (r.type === m && !isNaN(Number(r.value))) {
+          points.push({ t: Number(r.timestamp), v: Number(r.value) });
+        }
+      });
+      renderChart(points.reverse());
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const d = await res.json();
+        document.getElementById('stat-health').textContent = d.storage.status;
+        document.getElementById('stat-records').textContent = d.storage.total_records;
+        document.getElementById('stat-segments').textContent = d.segments.length;
+        document.getElementById('stat-memtable').textContent = d.memtable_events;
+        document.getElementById('stat-wal').textContent = `${d.wal_size_bytes} B`;
+
+        if (document.getElementById('topo-memtable')) {
+          document.getElementById('topo-memtable').textContent = `${d.memtable_events} Records`;
+          document.getElementById('topo-segments').textContent = `${d.segments.length} .gt Files`;
+        }
+
+        let html = '<table><thead><tr><th>Segment ID</th><th>Record Count</th><th>Min Timestamp</th><th>Max Timestamp</th><th>Entities</th></tr></thead><tbody>';
+        d.segments.forEach(s => {
+          html += `<tr><td><strong>${s.segment_id}</strong></td><td>${s.record_count}</td><td>${s.min_ts}</td><td>${s.max_ts}</td><td>${s.entities.join(', ')}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        document.getElementById('segment-table').innerHTML = d.segments.length ? html : '<p style="padding: 1.25rem; color: var(--text-muted); font-size: 0.82rem;">No persistent segments on disk yet (in-memory WAL active).</p>';
+      } catch (err) {}
+    }
+
+    async function submitEvent() {
+      const text = document.getElementById('ingest-json').value.trim();
+      if (!text) return;
+      try {
+        const payload = JSON.parse(text);
+        const res = await fetch('/api/ingest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const d = await res.json();
+        document.getElementById('ingest-feedback').innerHTML = `<span style="color: var(--emerald);">[OK] Ingested successfully. Sequence #${d.sequence_num || d.ingested_count}</span>`;
+        loadStats();
+      } catch (e) {
+        document.getElementById('ingest-feedback').innerHTML = `<span style="color: var(--rose);">[ERROR] ${e.message}</span>`;
+      }
+    }
+
+    async function loadSampleData() {
+      const sample = [
+        {"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 41.2, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098060, "type": "memory", "value": 48.5, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098120, "type": "cpu", "value": 40.8, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098180, "type": "memory", "value": 49.1, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098240, "type": "cpu", "value": 42.5, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098300, "type": "errors", "value": 2, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098360, "type": "cpu", "value": 39.9, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098420, "type": "deployment", "value": "v2.8.1", "attributes": {"author": "releng"}},
+        {"entity": "server-42", "timestamp": 1788098480, "type": "cpu", "value": 61.4, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098540, "type": "latency", "value": 84.0, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098600, "type": "errors", "value": 17, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098660, "type": "cpu", "value": 94.2, "attributes": {"region": "us-east"}},
+        {"entity": "server-42", "timestamp": 1788098720, "type": "errors", "value": 41, "attributes": {"region": "us-east"}}
+      ];
+      await fetch('/api/ingest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sample)
+      });
+      document.getElementById('ingest-feedback').innerHTML = '<span style="color: var(--emerald);">[OK] Ingested 13 sample records for server-42.</span>';
+      loadStats();
+    }
+
+    async function runQuery() {
+      const q = document.getElementById('query-string').value;
+      try {
+        const res = await fetch('/api/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: q })
+        });
+        const data = await res.json();
+        if (data.error) {
+          document.getElementById('query-results-table').innerHTML = `<p style="padding: 1.25rem; color: var(--rose); font-family: JetBrains Mono;">${data.error}</p>`;
+          return;
+        }
+
+        document.getElementById('query-stats').textContent = `${data.metadata.returned_rows} rows returned | ${data.metadata.scanned_rows} scanned | ${data.metadata.execution_time_ms} ms`;
+
+        let html = '<table><thead><tr>' + data.columns.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+        data.rows.forEach(r => {
+          html += '<tr>' + r.map(v => `<td>${v}</td>`).join('') + '</tr>';
+        });
+        html += '</tbody></table>';
+        document.getElementById('query-results-table').innerHTML = html;
+      } catch (err) {}
+    }
+
+    async function loadRealityInfo() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        let html = '<div style="background: var(--surface-subtle); padding: 1.25rem; border-radius: 6px; border: 1px solid var(--border); font-family: JetBrains Mono; font-size: 0.82rem;">';
+        html += `<div style="margin-bottom: 0.5rem; font-weight: bold; color: var(--brand);">AUTHORITATIVE MANIFEST STATUS:</div>`;
+        html += `<div>Indexed Disk Segments: <strong>${data.segments.length}</strong></div>`;
+        html += `<div>Memtable Active Records: <strong>${data.memtable_events}</strong></div>`;
+        html += `<div>WAL Size on Disk: <strong>${data.wal_size_bytes} bytes</strong></div>`;
+        html += '</div>';
+        document.getElementById('reality-details').innerHTML = html;
+      } catch (e) {}
+    }
+
+    async function loadTimeline(entityParam) {
+      try {
+        const entity = entityParam || currentLiveEntity || 'server-42';
+        const res = await fetch(`/api/events?entity=${encodeURIComponent(entity)}`);
+        const data = await res.json();
+        const events = data.events || [];
+        cachedServerEvents = events;
+        
+        let html = '<table class="telemetry-table"><thead><tr><th>Timestamp</th><th>Entity</th><th>Metric / Type</th><th>Value</th><th>Event ID</th></tr></thead><tbody>';
+        const chartPoints = [];
+        
+        events.forEach(e => {
+          const rawTs = Number(e.timestamp);
+          let formattedTs = e.timestamp;
+          if (!isNaN(rawTs) && rawTs > 1000000000) {
+            const d = new Date(rawTs * 1000);
+            const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            formattedTs = `<span title="${d.toISOString()}">${timeStr}</span>`;
+          }
+          
+          const entity = e.entity;
+          const type = e.type;
+          const val = e.value;
+          const eid = e.event_id || 'evt-000';
+          
+          let valBadge = '';
+          if (type === 'deployment') {
+            valBadge = `<span class="badge" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val}</span>`;
+          } else if (type === 'errors') {
+            valBadge = Number(val) > 0 ? `<span class="badge HIGH" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val} err</span>` : `<span class="badge LOW" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">0 err</span>`;
+          } else if (type === 'latency') {
+            valBadge = `<span style="font-weight: 700; color: #2563eb;">${val} ms</span>`;
+          } else if (type === 'size_kb') {
+            valBadge = `<span style="font-weight: 700; color: #0891b2;">${val} KB</span>`;
+          } else if (type === 'cpu') {
+            valBadge = Number(val) > 80 ? `<span class="badge CRITICAL" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
+          } else if (type === 'memory') {
+            valBadge = Number(val) > 75 ? `<span class="badge MEDIUM" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
+          } else {
+            valBadge = `<span style="font-weight: 700; color: var(--text-main);">${val}</span>`;
+          }
+          
+          html += `<tr><td style="color: var(--text-muted); font-size: 0.76rem; font-family: JetBrains Mono;">${formattedTs}</td><td><span class="badge" style="background: var(--surface-subtle); color: var(--text-main); border: 1px solid var(--border); font-size: 0.68rem; padding: 0.15rem 0.35rem;">${entity}</span></td><td><strong style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem;">${type}</strong></td><td>${valBadge}</td><td style="color: var(--text-light); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;" title="${eid}">${eid.substring(0, 8)}...</td></tr>`;
+          if (type === currentTimelineMetric && !isNaN(Number(val))) {
+            chartPoints.push({ t: Number(rawTs), v: Number(val) });
+          }
+        });
+        html += '</tbody></table>';
+        
+        if (document.getElementById('timeline-table')) {
+          document.getElementById('timeline-table').innerHTML = events.length ? html : '<p style="padding: 1.25rem; color: var(--text-muted); font-size: 0.82rem;">No historical events recorded for server-42.</p>';
+        }
+        if (document.getElementById('overview-stream-table')) {
+          document.getElementById('overview-stream-table').innerHTML = events.length ? html : '<p style="padding: 1.25rem; color: var(--text-muted); font-size: 0.82rem;">No historical events recorded.</p>';
+        }
+
+        renderChart(chartPoints.reverse());
+      } catch (e) {}
+    }
+
+    function renderChart(points) {
+      const c = document.getElementById('timeline-chart');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      const w = c.width = c.parentElement.clientWidth - 32;
+      const h = c.height = 240;
+
+      ctx.clearRect(0, 0, w, h);
+      if (!points.length) {
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '13px Inter';
+        ctx.fillText('No numeric data points available to plot.', 20, h / 2);
+        return;
+      }
+
+      const minV = Math.min(...points.map(p => p.v));
+      const maxV = Math.max(...points.map(p => p.v));
+      const range = (maxV - minV) || 1;
+
+      ctx.strokeStyle = '#f1f5f9';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const y = 20 + (i / 4) * (h - 50);
+        ctx.beginPath();
+        ctx.moveTo(40, y);
+        ctx.lineTo(w - 20, y);
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.strokeStyle = '#2563eb';
+      ctx.lineWidth = 2.5;
+      points.forEach((p, idx) => {
+        const x = (idx / (points.length - 1 || 1)) * (w - 70) + 45;
+        const y = h - 35 - ((p.v - minV) / range) * (h - 60);
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      points.forEach((p, idx) => {
+        const x = (idx / (points.length - 1 || 1)) * (w - 70) + 45;
+        const y = h - 35 - ((p.v - minV) / range) * (h - 60);
+        
+        ctx.beginPath();
+        ctx.arc(x, y, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = '10px JetBrains Mono';
+        ctx.fillText(p.v, x - 8, y - 8);
+      });
+    }
+
+    async function calculateTemporalDelta(entity, metric) {
+      try {
+        const res = await fetch(`/api/analytics/temporal-diff?entity=${entity}&metric=${metric}&t1=1788098000&t2=1788098660`);
+        const diff = await res.json();
+        let html = `<div class="stat-card" style="border-left: 4px solid var(--brand);"><div class="stat-card-title"><span>TEMPORAL SHIFT: ${entity} (${metric.toUpperCase()})</span><span style="color: var(--brand); font-weight: 800;">+${diff.percentage_change}% Shift</span></div><p style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 0.4rem;">Baseline at t1 (${diff.t1}): <strong>${diff.val1}</strong> &rarr; State at t2 (${diff.t2}): <strong>${diff.val2}</strong> (Gross Shift: +${diff.absolute_change})</p><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted);">Intervening Events: ${diff.intervening_events.join(' &bull; ')}</div></div>`;
+        document.getElementById('temporal-diff-box').innerHTML = html;
+      } catch (e) {}
+    }
+
+    async function runDiagnostics(entity) {
+      try {
+        const res = await fetch(`/api/analytics/profile?entity=${entity}`);
+        const data = await res.json();
+        const p = data.profile || data;
+        const correlations = data.correlations || [];
+
+        // For the Diagnostics tab (view-soul): Full 2-column view
+        let fullHtml = '<div class="grid-2">';
+
+        // Metric Baselines
+        fullHtml += '<div><h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem;">Metric Baselines & Quantiles</h4>';
+        const metricsMap = p.metrics || {};
+        for (const [m, s] of Object.entries(metricsMap)) {
+          fullHtml += `<div class="stat-card"><div class="stat-card-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.72rem;">${s.count} samples</span></div><div class="stat-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>StdDev: <strong>${s.stddev}</strong></span><span>Median: <strong>${s.median}</strong></span></div></div>`;
+        }
+
+        // Correlations
+        if (correlations.length) {
+          fullHtml += '<h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1.25rem; margin-bottom: 0.8rem;">Metric Correlation Matrix</h4>';
+          correlations.forEach(c => {
+            fullHtml += `<div class="stat-card" style="border-left: 4px solid var(--amber);"><div class="stat-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand); font-weight: bold;">r = ${c.coefficient}</span></div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship} (Sample Size: ${c.sample_size})</div></div>`;
+          });
+        }
+        fullHtml += '</div>';
+
+        // Anomalies
+        fullHtml += '<div><h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem;">Detected Deviations & Causal Evidence</h4>';
+        const anomList = p.recent_anomalies || [];
+        if (anomList.length) {
+          anomList.forEach(a => {
+            fullHtml += `<div class="stat-card" style="border-left: 4px solid var(--rose);"><div class="stat-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 0.4rem;">${a.assessment}</p><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); margin-bottom: 0.3rem;">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Delta: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--brand);">Causal Factors: ${(a.evidence || []).join(' &bull; ')}</div></div>`;
+          });
+        } else {
+          fullHtml += '<p style="color: var(--text-muted); font-size: 0.82rem;">No statistically anomalous deviations detected.</p>';
+        }
+        fullHtml += '</div></div>';
+
+        if (document.getElementById('diagnostics-view')) {
+          document.getElementById('diagnostics-view').innerHTML = fullHtml;
+        }
+
+        // For Overview Summary (Right Column): Clean stacked scrollable view without nested grid overflow
+        let summaryHtml = '<div style="max-height: 480px; overflow-y: auto; padding-right: 0.35rem;">';
+        
+        // Quick Anomalies
+        if (anomList.length) {
+          summaryHtml += '<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;"><h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--rose);"> Active Deviations & Anomalies</h4><span class="badge HIGH">' + anomList.length + ' Spikes</span></div>';
+          anomList.forEach(a => {
+            summaryHtml += `<div class="stat-card" style="border-left: 4px solid var(--rose); margin-bottom: 0.75rem; background: #fff5f5;"><div class="stat-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 0.4rem; font-weight: 500;">${a.assessment}</p><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); background: white; padding: 0.4rem 0.6rem; border-radius: 4px; border: 1px solid #fee2e2;">Observed: <strong style="color: var(--rose);">${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Z: ${a.z_score}</div></div>`;
+          });
+        }
+
+        // Quick Correlations
+        if (correlations.length) {
+          summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--amber); margin-top: 1.25rem; margin-bottom: 0.75rem;"> Correlation Highlights</h4>';
+          correlations.forEach(c => {
+            summaryHtml += `<div class="stat-card" style="border-left: 4px solid var(--amber); margin-bottom: 0.75rem; background: #fffdf5;"><div class="stat-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand); font-weight: bold; font-family: JetBrains Mono;">r = ${c.coefficient}</span></div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship}</div></div>`;
+          });
+        }
+
+        // Quick Baselines
+        summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1.25rem; margin-bottom: 0.75rem;">Metric Baselines</h4>';
+        for (const [m, s] of Object.entries(metricsMap)) {
+          summaryHtml += `<div class="stat-card" style="margin-bottom: 0.75rem;"><div class="stat-card-title"><span>${m.toUpperCase()}</span><span class="badge LOW">${s.count} samples</span></div><div class="stat-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>Std: <strong>${s.stddev}</strong></span></div></div>`;
+        }
+
+        summaryHtml += '</div>';
+
+        if (document.getElementById('overview-diagnostics-summary')) {
+          document.getElementById('overview-diagnostics-summary').innerHTML = summaryHtml;
+        }
+      } catch (e) {}
+    }
+
+    async function simulateIncident(type) {
+      const now = Math.floor(Date.now() / 1000);
+      let events = [];
+      if (type === 'outage') {
+        events = [
+          {"entity": "server-42", "timestamp": now, "type": "cpu", "value": 45.0, "attributes": {"host": "prod-1"}},
+          {"entity": "server-42", "timestamp": now + 10, "type": "deployment", "value": "v2.9.1-canary", "attributes": {"author": "releng"}},
+          {"entity": "server-42", "timestamp": now + 20, "type": "cpu", "value": 98.4, "attributes": {"host": "prod-1"}},
+          {"entity": "server-42", "timestamp": now + 30, "type": "errors", "value": 85, "attributes": {"host": "prod-1"}}
+        ];
+      } else if (type === 'deploy') {
+        events = [
+          {"entity": "server-88", "timestamp": now, "type": "deployment", "value": "v3.0.0-stable", "attributes": {"author": "releng"}},
+          {"entity": "server-88", "timestamp": now + 15, "type": "cpu", "value": 34.2, "attributes": {"host": "prod-2"}},
+          {"entity": "server-88", "timestamp": now + 30, "type": "memory", "value": 41.0, "attributes": {"host": "prod-2"}}
+        ];
+      } else {
+        events = [
+          {"entity": "edge-router-01", "timestamp": now, "type": "latency", "value": 140.5, "attributes": {"region": "us-east"}},
+          {"entity": "edge-router-01", "timestamp": now + 10, "type": "errors", "value": 240, "attributes": {"region": "us-east"}}
+        ];
+      }
+
+      await fetch('/api/ingest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(events)
+      });
+      document.getElementById('simulator-log').innerHTML = `[${new Date().toLocaleTimeString()}] <span style="color: var(--brand); font-weight: bold;">[SIMULATOR INJECTED]</span> ${events.length} dynamic incident events streamed to disk WAL.`;
+      loadStats();
+      loadTimeline();
+    }
+
+    async function executeAgenticCrawl() {
+      const url = document.getElementById('agentic-url-input').value.trim();
+      if (!url) return;
+
+      const resultsBox = document.getElementById('agentic-pipeline-results');
+      resultsBox.style.display = 'block';
+
+      document.getElementById('pipe-p1-val').textContent = 'FETCHING...';
+      document.getElementById('pipe-p2-val').textContent = 'QUEUED';
+      document.getElementById('pipe-p3-val').textContent = 'QUEUED';
+      document.getElementById('pipe-p4-val').textContent = 'QUEUED';
+      document.getElementById('pipe-p5-val').textContent = 'QUEUED';
+      document.getElementById('pipe-p6-val').textContent = 'QUEUED';
+      document.getElementById('agentic-pipeline-detail').innerHTML = `<span style="color: var(--brand);">[AGENT DISPATCHED]</span> Connecting to <strong>${url}</strong>... Initiating 6-Phase Agentic Execution...`;
+
+      try {
+        const res = await fetch('/api/agentic/crawl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url })
+        });
+        const data = await res.json();
+        if (data.error) {
+          document.getElementById('agentic-pipeline-detail').innerHTML = `<span style="color: var(--rose); font-weight: bold;">[PIPELINE FAILURE]</span> ${data.error}`;
+          return;
+        }
+
+        const p = data.pipeline;
+        document.getElementById('pipe-p1-val').textContent = `${p.phase_1_power.latency_ms}ms (${p.phase_1_power.status_code})`;
+        document.getElementById('pipe-p2-val').textContent = `${p.phase_2_space.page_size_kb} KB (WAL OK)`;
+        document.getElementById('pipe-p3-val').textContent = `${p.phase_3_reality.links_found} Links / ${p.phase_3_reality.scripts_found} Scripts`;
+        document.getElementById('pipe-p4-val').textContent = `${p.phase_4_mind.events_generated} Records Ingested`;
+        document.getElementById('pipe-p5-val').textContent = `${p.phase_5_time.timeline_count} History Total`;
+        document.getElementById('pipe-p6-val').textContent = `${p.phase_6_soul.anomalies_detected} Anomalies Flagged`;
+
+        const contentTypeClean = (data.content_type || 'text/html').toString().split(';')[0];
+        const serverTechClean = data.server_tech || 'Standard Host';
+        const h1Clean = data.h1 || 'No primary heading';
+        const descClean = data.description || 'No meta description defined.';
+        const protoClean = (p.phase_1_power && p.phase_1_power.protocol) || 'HTTP';
+        const statusClean = (p.phase_1_power && p.phase_1_power.status_code) || 200;
+        const hstsClean = (p.phase_1_power && p.phase_1_power.hsts_secure) ? 'YES' : 'NO';
+
+        let detailHtml = `
+          <div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+              <div>
+                <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;">${data.title || data.entity}</div>
+                <div style="font-size: 0.76rem; color: var(--text-muted);">${descClean}</div>
+              </div>
+              <span class="badge LOW" style="font-size: 0.74rem;">${protoClean} &bull; HTTP ${statusClean}</span>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 0.8rem; gap: 0.75rem;">
+              <div style="background: var(--surface-subtle); padding: 0.6rem 0.8rem; border-radius: 6px;">
+                <div style="font-size: 0.68rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Host & Server Tech</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.82rem; font-weight: 700; color: var(--text-main);">${serverTechClean}</div>
+              </div>
+              <div style="background: var(--surface-subtle); padding: 0.6rem 0.8rem; border-radius: 6px;">
+                <div style="font-size: 0.68rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Primary Heading (H1)</div>
+                <div style="font-size: 0.82rem; font-weight: 700; color: var(--brand); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${h1Clean}">${h1Clean}</div>
+              </div>
+              <div style="background: var(--surface-subtle); padding: 0.6rem 0.8rem; border-radius: 6px;">
+                <div style="font-size: 0.68rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Payload & MIME</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.82rem; font-weight: 700; color: var(--emerald);">${data.page_size_kb || 0} KB (${contentTypeClean})</div>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 0.75rem;">
+              <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <span>Links: <strong style="color: var(--text-main);">${data.links_count || 0}</strong></span>
+                <span>Scripts: <strong style="color: var(--text-main);">${data.scripts_count || 0}</strong></span>
+                <span>Images: <strong style="color: var(--text-main);">${data.images_count || 0}</strong></span>
+                <span>HSTS: <strong style="color: ${hstsClean === 'YES' ? 'var(--emerald)' : 'var(--text-light)'};">${hstsClean}</strong></span>
+              </div>
+              <div style="max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.7rem; color: var(--text-light);" title="${(data.sample_links || []).join(' | ')}">
+                Sample URLs: <span style="color: var(--brand);">${(data.sample_links || []).map(l => l.length > 30 ? l.substring(0, 30) + '…' : l).slice(0, 2).join(', ') || 'Root'}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.getElementById('agentic-pipeline-detail').innerHTML = detailHtml;
+
+        currentLiveEntity = data.entity;
+        if (document.getElementById('overview-stream-title')) {
+          document.getElementById('overview-stream-title').textContent = `Live Telemetry Stream (${data.entity})`;
+        }
+        if (document.getElementById('overview-diagnostics-title')) {
+          document.getElementById('overview-diagnostics-title').textContent = `Statistical Baseline Highlights (${data.entity})`;
+        }
+        loadStats();
+        loadTimeline(data.entity);
+        runDiagnostics(data.entity);
+        renderAllMultiCharts();
+      } catch (err) {
+        document.getElementById('agentic-pipeline-detail').innerHTML = `<span style="color: var(--rose);">[ERROR]</span> ${err.message}`;
+      }
+    }
+
+    // ==========================================
+    // AUTHENTICATION & SESSION PERSISTENCE
+    // ==========================================
+    let currentUser = null;
+
+    function checkAuthSession() {
+      const saved = localStorage.getItem('gauntlet_user_session');
+      if (saved) {
+        try {
+          currentUser = JSON.parse(saved);
+          applyUserSession(currentUser);
+          document.getElementById('auth-overlay').style.display = 'none';
+        } catch (e) {
+          showAuthModal('login');
+        }
+      } else {
+        showAuthModal('login');
+      }
+    }
+
+    function showAuthModal(mode) {
+      document.getElementById('auth-overlay').style.display = 'flex';
+      switchAuthMode(mode || 'login');
+    }
+
+    function switchAuthMode(mode) {
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      const activeTab = document.getElementById(`auth-tab-${mode}`);
+      if (activeTab) activeTab.classList.add('active');
+
+      const nameGroup = document.getElementById('group-name');
+      const passGroup = document.getElementById('group-pass');
+      const roleGroup = document.getElementById('group-role');
+      const submitBtn = document.getElementById('auth-submit-btn');
+
+      if (mode === 'signup') {
+        nameGroup.style.display = 'block';
+        passGroup.style.display = 'block';
+        roleGroup.style.display = 'block';
+        submitBtn.textContent = 'Create Enterprise Account';
+      } else if (mode === 'demo') {
+        launchDemoSession();
+      } else {
+        nameGroup.style.display = 'none';
+        passGroup.style.display = 'block';
+        roleGroup.style.display = 'none';
+        submitBtn.textContent = 'Sign In to GAUNTLET';
+      }
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim();
+      const name = document.getElementById('auth-name').value.trim() || email.split('@')[0];
+      const role = document.getElementById('auth-role').value.trim() || 'Platform Architect';
+
+      currentUser = {
+        name: name,
+        email: email,
+        role: role,
+        org: 'Gauntlet Global Engineering',
+        avatar: localStorage.getItem('gauntlet_custom_avatar') || null
+      };
+
+      localStorage.setItem('gauntlet_user_session', JSON.stringify(currentUser));
+      applyUserSession(currentUser);
+      document.getElementById('auth-overlay').style.display = 'none';
+    }
+
+    function launchDemoSession() {
+      currentUser = {
+        name: 'Demo Architect',
+        email: 'demo@gauntlet.internal',
+        role: 'Evaluation Engineer',
+        org: 'Gauntlet Cloud Demo Lab',
+        avatar: null
+      };
+      localStorage.setItem('gauntlet_user_session', JSON.stringify(currentUser));
+      applyUserSession(currentUser);
+      document.getElementById('auth-overlay').style.display = 'none';
+    }
+
+    function applyUserSession(user) {
+      if (!user) return;
+      document.getElementById('header-user-name').textContent = user.name;
+      document.getElementById('header-workspace-name').textContent = user.org || 'Production Cluster';
+
+      const isDemo = user.email === 'demo@gauntlet.internal' || user.role === 'Evaluation Engineer';
+
+      // Controls visibility
+      if (document.getElementById('avatar-unlocked-controls') && document.getElementById('avatar-locked-banner')) {
+        document.getElementById('avatar-unlocked-controls').style.display = isDemo ? 'none' : 'block';
+        document.getElementById('avatar-locked-banner').style.display = isDemo ? 'block' : 'none';
+      }
+
+      // Avatar
+      updateAvatarDisplay(user);
+
+      // Populate profile page form
+      if (document.getElementById('prof-name')) document.getElementById('prof-name').value = user.name;
+      if (document.getElementById('prof-email')) document.getElementById('prof-email').value = user.email;
+      if (document.getElementById('prof-role')) document.getElementById('prof-role').value = user.role;
+      if (document.getElementById('prof-org')) document.getElementById('prof-org').value = user.org;
+    }
+
+    function updateAvatarDisplay(user) {
+      const headerAvatar = document.getElementById('header-avatar');
+      const avatarContainer = document.getElementById('avatar-preview-container');
+
+      const isDemo = user.email === 'demo@gauntlet.internal' || user.role === 'Evaluation Engineer';
+      const customAvatar = !isDemo ? (user.avatar || localStorage.getItem('gauntlet_custom_avatar')) : null;
+
+      if (customAvatar) {
+        if (headerAvatar) {
+          headerAvatar.style.background = 'transparent';
+          headerAvatar.innerHTML = `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;" />`;
+        }
+        if (avatarContainer) {
+          avatarContainer.style.background = 'transparent';
+          avatarContainer.innerHTML = `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;" />`;
+        }
+      } else {
+        const initial = (user.name || 'N').charAt(0).toUpperCase();
+        if (headerAvatar) {
+          headerAvatar.style.background = 'linear-gradient(135deg, #2563eb, #7c3aed)';
+          headerAvatar.textContent = initial;
+        }
+        if (avatarContainer) {
+          avatarContainer.style.background = 'linear-gradient(135deg, #2563eb, #7c3aed)';
+          avatarContainer.innerHTML = `<span id="avatar-initials">${initial}</span>`;
+        }
+      }
+    }
+
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Data = e.target.result;
+        localStorage.setItem('gauntlet_custom_avatar', base64Data);
+        if (currentUser) {
+          currentUser.avatar = base64Data;
+          localStorage.setItem('gauntlet_user_session', JSON.stringify(currentUser));
+          applyUserSession(currentUser);
+        }
+        document.getElementById('prof-feedback').innerHTML = '<span style="color: var(--emerald);">[OK] Avatar photo updated & synced locally.</span>';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetAvatar() {
+      localStorage.removeItem('gauntlet_custom_avatar');
+      if (currentUser) {
+        currentUser.avatar = null;
+        localStorage.setItem('gauntlet_user_session', JSON.stringify(currentUser));
+        applyUserSession(currentUser);
+      }
+      document.getElementById('prof-feedback').innerHTML = '<span style="color: var(--text-muted);">[RESET] Avatar reset to default initials.</span>';
+    }
+
+    function saveUserProfile() {
+      if (!currentUser) currentUser = {};
+      currentUser.name = document.getElementById('prof-name').value.trim();
+      currentUser.email = document.getElementById('prof-email').value.trim();
+      currentUser.role = document.getElementById('prof-role').value.trim();
+      currentUser.org = document.getElementById('prof-org').value.trim();
+
+      localStorage.setItem('gauntlet_user_session', JSON.stringify(currentUser));
+      applyUserSession(currentUser);
+      document.getElementById('prof-feedback').innerHTML = '<span style="color: var(--emerald); font-weight: bold;"> Profile details successfully saved!</span>';
+    }
+
+    function openProfileModal() {
+      const existing = document.getElementById('user-profile-modal');
+      if (existing) { existing.remove(); return; }
+
+      const modal = document.createElement('div');
+      modal.id = 'user-profile-modal';
+      modal.style.cssText = `
+        position: fixed; top: 60px; right: 20px; width: 340px;
+        background: white; border: 1px solid var(--border); border-radius: 12px;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+        padding: 1.25rem; z-index: 1000; animation: fadeIn 0.15s ease-in-out;
+      `;
+
+      const u = currentUser || { name: 'Demo Architect', email: 'demo@gauntlet.internal', role: 'Evaluation Engineer', org: 'Gauntlet Cloud Demo Lab' };
+      const initial = (u.name || 'D').charAt(0).toUpperCase();
+      const customAvatar = u.avatar || localStorage.getItem('gauntlet_custom_avatar');
+      const avatarHtml = customAvatar ? `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />` : initial;
+
+      modal.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div class="user-avatar" style="width: 38px; height: 38px; font-size: 1rem;">${avatarHtml}</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">${u.name}</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">${u.role}</div>
+            </div>
+          </div>
+          <button onclick="document.getElementById('user-profile-modal').remove()" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-light);">&times;</button>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem;">Organization & Workspace</div>
+          <div style="background: var(--surface-subtle); padding: 0.6rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+            <span> ${u.org || 'Production Cluster'}</span>
+            <span class="badge LOW">ENTERPRISE</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem;">Cluster Secret API Key</div>
+          <div style="font-family: JetBrains Mono; font-size: 0.72rem; background: #0f172a; color: #38bdf8; padding: 0.5rem 0.75rem; border-radius: 6px; word-break: break-all;">
+            gt_live_8f0923a1c984fe77b1029e0a
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <button class="btn-primary" style="flex: 1; justify-content: center; font-size: 0.76rem;" onclick="switchView('profile'); document.getElementById('user-profile-modal').remove();">Edit Profile / Avatar</button>
+          <button class="btn-secondary" style="flex: 1; justify-content: center; font-size: 0.76rem;" onclick="alert('API Key copied to clipboard.');">Copy API Key</button>
+        </div>
+
+        <button class="btn-secondary" style="width: 100%; justify-content: center; font-size: 0.76rem; color: var(--rose); border-color: #fecdd3;" onclick="document.getElementById('user-profile-modal').remove(); logoutUser();">
+          Log Out / Switch Account
+        </button>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    function logoutUser() {
+      localStorage.removeItem('gauntlet_user_session');
+      currentUser = null;
+      showAuthModal('login');
+    }
+
+    // ==========================================
+    // MULTI-METRIC CANVAS RENDERERS & ADVANCED ANALYTICS
+    // ==========================================
+    async function switchHubEntity(entity) {
+      currentLiveEntity = entity;
+      document.querySelectorAll('#view-metrics-hub .chip').forEach(c => c.classList.remove('active'));
+      const activeChip = Array.from(document.querySelectorAll('#view-metrics-hub .chip')).find(c => c.textContent === entity);
+      if (activeChip) activeChip.classList.add('active');
+      await renderAllMultiCharts();
+    }
+
+    async function exportTelemetryCsv() {
+      const targetEntity = currentLiveEntity || 'server-42';
+      const res = await fetch(`/api/events?entity=${encodeURIComponent(targetEntity)}`);
+      const data = await res.json();
+      const events = data.events || [];
+      
+      let csv = 'Timestamp,Entity,Type,Value,EventID\n';
+      events.forEach(e => {
+        csv += `${e.timestamp},"${e.entity}","${e.type}",${e.value},"${e.event_id}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `gauntlet_telemetry_${targetEntity}_${Date.now()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function renderAllMultiCharts() {
+      try {
+        const targetEntity = currentLiveEntity || 'server-42';
+        document.getElementById('hub-active-entity').textContent = targetEntity;
+
+        const res = await fetch(`/api/events?entity=${encodeURIComponent(targetEntity)}`);
+        const data = await res.json();
+        const events = data.events || [];
+
+        const cpuPts = [];
+        const memPts = [];
+        const latPts = [];
+        const errPts = [];
+
+        events.forEach(e => {
+          const val = Number(e.value);
+          const t = Number(e.timestamp);
+          if (isNaN(val)) return;
+          if (e.type === 'cpu') cpuPts.push({ t, v: val });
+          if (e.type === 'memory') memPts.push({ t, v: val });
+          if (e.type === 'latency') latPts.push({ t, v: val });
+          if (e.type === 'errors') errPts.push({ t, v: val });
+        });
+
+        drawGenericCanvas('chart-hub-cpu', cpuPts.reverse(), '#7c3aed', '%');
+        drawGenericCanvas('chart-hub-mem', memPts.reverse(), '#2563eb', '%');
+        drawGenericCanvas('chart-hub-lat', latPts.reverse(), '#059669', 'ms');
+        drawGenericCanvas('chart-hub-err', errPts.reverse(), '#e11d48', 'err');
+
+        if (cpuPts.length) document.getElementById('hub-cpu-curr').textContent = `${cpuPts[0].v}%`;
+        if (memPts.length) document.getElementById('hub-mem-curr').textContent = `${memPts[0].v}%`;
+        if (latPts.length) document.getElementById('hub-lat-curr').textContent = `${latPts[0].v} ms`;
+        if (errPts.length) document.getElementById('hub-err-curr').textContent = `${errPts[0].v} err`;
+
+        // Fetch deep profile and correlation matrix for target entity
+        const profRes = await fetch(`/api/analytics/profile?entity=${encodeURIComponent(targetEntity)}`);
+        const profData = await profRes.json();
+        const p = profData.profile || profData;
+        const metricsMap = p.metrics || {};
+
+        // Latency card
+        if (metricsMap.latency) {
+          const m = metricsMap.latency;
+          document.getElementById('hub-stat-lat-mean').textContent = `${m.mean} ms`;
+          document.getElementById('hub-badge-p95').textContent = `P95: ${m.p95} ms`;
+          document.getElementById('hub-stat-lat-pills').innerHTML = `<span>Min: <strong>${m.min}</strong></span><span>Median: <strong>${m.median}</strong></span><span>Max: <strong>${m.max}</strong></span>`;
+        } else {
+          document.getElementById('hub-stat-lat-mean').textContent = 'N/A';
+          document.getElementById('hub-badge-p95').textContent = 'P95: -';
+        }
+
+        // CPU card
+        if (metricsMap.cpu) {
+          const m = metricsMap.cpu;
+          document.getElementById('hub-stat-cpu-mean').textContent = `${m.mean}%`;
+          document.getElementById('hub-badge-cpu-std').textContent = `Std: ±${m.stddev}`;
+          document.getElementById('hub-stat-cpu-pills').innerHTML = `<span>P90: <strong>${m.p90 || m.p95}</strong></span><span>Peak: <strong>${m.max}%</strong></span><span>Samples: <strong>${m.count}</strong></span>`;
+        } else {
+          document.getElementById('hub-stat-cpu-mean').textContent = 'N/A';
+          document.getElementById('hub-badge-cpu-std').textContent = 'Std: -';
+        }
+
+        // Memory card
+        if (metricsMap.memory) {
+          const m = metricsMap.memory;
+          document.getElementById('hub-stat-mem-mean').textContent = `${m.mean}%`;
+          document.getElementById('hub-stat-mem-pills').innerHTML = `<span>Median: <strong>${m.median}%</strong></span><span>Std: <strong>±${m.stddev}</strong></span><span>Samples: <strong>${m.count}</strong></span>`;
+        } else {
+          document.getElementById('hub-stat-mem-mean').textContent = 'N/A';
+        }
+
+        // Render Correlation Matrix Cards
+        const corrList = profData.correlations || [];
+        let corrHtml = '';
+        if (corrList.length) {
+          corrList.forEach(c => {
+            const isPos = c.coefficient > 0.4;
+            const isNeg = c.coefficient < -0.4;
+            const badgeColor = isPos ? 'var(--brand)' : isNeg ? 'var(--rose)' : 'var(--amber)';
+            corrHtml += `
+              <div class="stat-card" style="border-left: 4px solid ${badgeColor}; background: white; margin-bottom: 0;">
+                <div class="stat-card-title">
+                  <span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span>
+                  <span style="font-family: JetBrains Mono; font-weight: bold; color: ${badgeColor};">r = ${c.coefficient}</span>
+                </div>
+                <div style="font-size: 0.76rem; color: var(--text-muted);">${c.relationship}</div>
+                <div style="font-size: 0.7rem; font-family: JetBrains Mono; color: var(--text-light); margin-top: 0.35rem;">Sample Size: ${c.sample_size} records</div>
+              </div>
+            `;
+          });
+        } else {
+          corrHtml = '<p style="color: var(--text-muted); font-size: 0.8rem;">Insufficient multi-metric pairs to compute correlation coefficients.</p>';
+        }
+        document.getElementById('hub-correlation-cards').innerHTML = corrHtml;
+
+      } catch (e) {}
+    }
+
+    function drawGenericCanvas(canvasId, points, strokeColor, unit) {
+      const c = document.getElementById(canvasId);
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      const w = c.width = c.parentElement.clientWidth - 32;
+      const h = c.height = 200;
+
+      ctx.clearRect(0, 0, w, h);
+      if (!points.length) {
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '12px Inter';
+        ctx.fillText(`No ${unit} events recorded.`, 20, h / 2);
+        return;
+      }
+
+      const minV = Math.min(...points.map(p => p.v));
+      const maxV = Math.max(...points.map(p => p.v));
+      const range = (maxV - minV) || 1;
+
+      // Grid lines
+      ctx.strokeStyle = '#f1f5f9';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 3; i++) {
+        const y = 15 + (i / 3) * (h - 40);
+        ctx.beginPath();
+        ctx.moveTo(35, y);
+        ctx.lineTo(w - 15, y);
+        ctx.stroke();
+      }
+
+      // Line
+      ctx.beginPath();
+      ctx.strokeStyle = strokeColor || '#2563eb';
+      ctx.lineWidth = 2.5;
+      points.forEach((p, idx) => {
+        const x = (idx / (points.length - 1 || 1)) * (w - 60) + 40;
+        const y = h - 25 - ((p.v - minV) / range) * (h - 50);
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      // Points
+      points.forEach((p, idx) => {
+        const x = (idx / (points.length - 1 || 1)) * (w - 60) + 40;
+        const y = h - 25 - ((p.v - minV) / range) * (h - 50);
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.strokeStyle = strokeColor || '#2563eb';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+    }
+
+    let currentLiveEntity = 'server-42';
+
+    // Hook views
+    const originalSwitchView = switchView;
+    switchView = function(viewName) {
+      originalSwitchView(viewName);
+      if (viewName === 'metrics-hub') {
+        setTimeout(renderAllMultiCharts, 50);
+      }
+      if (viewName === 'profile' && currentUser) {
+        applyUserSession(currentUser);
+      }
+    };
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      if (!sidebar) return;
+      sidebar.classList.toggle('collapsed');
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      localStorage.setItem('gauntlet_sidebar_collapsed', isCollapsed ? '1' : '0');
+    }
+
+    // Restore sidebar state from localStorage on load
+    if (localStorage.getItem('gauntlet_sidebar_collapsed') === '1') {
+      const sb = document.getElementById('appSidebar');
+      if (sb) sb.classList.add('collapsed');
+    }
+
+    // Check Auth on page load
+    checkAuthSession();
+    loadStats();
+    loadTimeline();
+    runDiagnostics('server-42');
+  </script>
+</body>
+</html>

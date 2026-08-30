@@ -1,0 +1,5 @@
+database/
+__pycache__/
+*.pyc
+*.gt
+.pytest_cache/

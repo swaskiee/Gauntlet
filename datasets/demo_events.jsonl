@@ -1,0 +1,13 @@
+{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 41.2, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098060, "type": "memory", "value": 48.5, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098120, "type": "cpu", "value": 40.8, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098180, "type": "memory", "value": 49.1, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098240, "type": "cpu", "value": 42.5, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098300, "type": "errors", "value": 2, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098360, "type": "cpu", "value": 39.9, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098420, "type": "deployment", "value": "v2.8.1", "attributes": {"author": "releng"}}
+{"entity": "server-42", "timestamp": 1788098480, "type": "cpu", "value": 61.4, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098540, "type": "latency", "value": 84.0, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098600, "type": "errors", "value": 17, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098660, "type": "cpu", "value": 94.2, "attributes": {"region": "us-east"}}
+{"entity": "server-42", "timestamp": 1788098720, "type": "errors", "value": 41, "attributes": {"region": "us-east"}}
