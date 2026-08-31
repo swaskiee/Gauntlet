@@ -411,6 +411,32 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
             except Exception as e:
                 self._send_json(500, {"error": f"Agentic pipeline execution failed: {str(e)}"})
 
+        elif path == "/api/flush":
+            try:
+                flushed = self.storage.flush_memtable()
+                self.index.rebuild_from_segments(self.storage.segments)
+                self._send_json(200, {
+                    "status": "SUCCESS",
+                    "message": "Memtable flushed to persistent segment successfully.",
+                    "flushed_segment": flushed.to_dict() if flushed else None,
+                    "segments_count": len(self.storage.segments)
+                })
+            except Exception as e:
+                self._send_json(500, {"error": f"Flush failed: {str(e)}"})
+
+        elif path == "/api/compact":
+            try:
+                compacted = self.storage.compact()
+                self.index.rebuild_from_segments(self.storage.segments)
+                self._send_json(200, {
+                    "status": "SUCCESS",
+                    "message": "Segment compaction completed.",
+                    "compacted_segment": compacted.to_dict() if compacted else None,
+                    "segments_count": len(self.storage.segments)
+                })
+            except Exception as e:
+                self._send_json(500, {"error": f"Compaction failed: {str(e)}"})
+
         else:
             self._send_json(404, {"error": f"POST endpoint '{path}' not found"})
 

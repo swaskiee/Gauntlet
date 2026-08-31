@@ -2815,6 +2815,48 @@
       if (sb) sb.classList.add('collapsed');
     }
 
+    async function flushMemtable() {
+      try {
+        const res = await fetch('/api/flush', { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || 'Memtable flushed to disk successfully.');
+        loadStats();
+      } catch (e) {
+        alert('Flush failed: ' + e.message);
+      }
+    }
+
+    async function compactSegments() {
+      try {
+        const res = await fetch('/api/compact', { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || 'Segment compaction completed successfully.');
+        loadStats();
+      } catch (e) {
+        alert('Compaction failed: ' + e.message);
+      }
+    }
+
+    function setIngestSample(type) {
+      const now = Math.floor(Date.now() / 1000);
+      let sample = {};
+      if (type === 'cpu') {
+        sample = { "entity": "server-42", "timestamp": now, "type": "cpu", "value": 88.5, "attributes": { "region": "us-east" } };
+      } else if (type === 'memory') {
+        sample = { "entity": "server-42", "timestamp": now, "type": "memory", "value": 64.2, "attributes": { "region": "us-east" } };
+      } else if (type === 'deployment') {
+        sample = { "entity": "server-42", "timestamp": now, "type": "deployment", "value": "v2.9.0-prod", "attributes": { "author": "releng" } };
+      } else if (type === 'errors') {
+        sample = { "entity": "server-42", "timestamp": now, "type": "errors", "value": 14, "attributes": { "region": "us-east" } };
+      }
+      document.getElementById('ingest-json').value = JSON.stringify(sample, null, 2);
+    }
+
+    function setQuery(q) {
+      document.getElementById('query-string').value = q;
+      runQuery();
+    }
+
     // Check Auth on page load
     checkAuthSession();
     loadStats();
