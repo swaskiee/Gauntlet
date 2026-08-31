@@ -1,7 +1,7 @@
-# ☕ Nitanshu’s Kafé
+# ☕ AURA BOTANICA KAFE
 
 ## 🚀 Project Overview
-Nitanshu’s Kafé is a premium-grade coffee landing page engineered using pure HTML, CSS, and JavaScript. This project focuses on high-end UI/UX design, smooth animation systems, and performance-oriented frontend architecture.
+AURA BOTANICA Kafé is a premium-grade coffee landing page engineered using pure HTML, CSS, and JavaScript. This project focuses on high-end UI/UX design, smooth animation systems, and performance-oriented frontend architecture.
 
 ---
 
