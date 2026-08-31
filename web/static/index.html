@@ -938,6 +938,173 @@
       margin-top: 1.25rem;
       text-align: center;
     }
+
+    .agentic-search-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .agentic-search-row input {
+      flex: 1;
+      margin-bottom: 0;
+      min-width: 0;
+    }
+
+    .agentic-search-row button {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================
+       RESPONSIVE MOBILE & TABLET OPTIMIZATIONS
+       ========================================== */
+    @media (max-width: 900px) {
+      .telemetry-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .agentic-search-row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .agentic-search-row input {
+        width: 100%;
+      }
+
+      .agentic-search-row button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .topology-map {
+        flex-direction: column;
+        gap: 0.6rem;
+        padding: 1rem;
+      }
+
+      .topo-arrow {
+        transform: rotate(90deg);
+        margin: -0.2rem 0;
+      }
+
+      .topo-node {
+        width: 100%;
+        min-width: 100%;
+      }
+
+      header {
+        padding: 0.5rem 0.85rem;
+      }
+      .brand-pill {
+        display: none;
+      }
+      .team-badge {
+        display: none;
+      }
+      .cluster-status-pill {
+        display: none;
+      }
+      .brand-logo-text {
+        font-size: 1.1rem;
+      }
+      .brand-logo-img {
+        height: 30px;
+      }
+      .user-profile-btn span {
+        display: none;
+      }
+
+      /* MOBILE SIDEBAR AS FLOATING OVERLAY DRAWER */
+      aside.sidebar {
+        position: fixed;
+        top: 48px;
+        left: 0;
+        bottom: 0;
+        height: calc(100vh - 48px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+        margin-left: 0;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      }
+
+      aside.sidebar.collapsed {
+        transform: translateX(-100%);
+        margin-left: 0;
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .viewport {
+        padding: 1rem 0.85rem 4rem 0.85rem;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+
+      .telemetry-row {
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .content-box {
+        padding: 1.15rem 1rem;
+        border-radius: 10px;
+        margin-bottom: 1.25rem;
+      }
+
+      .box-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* 6-PHASE AGENTIC PIPELINE PHONE CARDS */
+      #agentic-pipeline-results > div:first-child {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
+      }
+
+      .table-wrap {
+        max-height: 360px;
+      }
+
+      .auth-card {
+        padding: 1.5rem;
+        max-width: 92vw;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-logo-text {
+        font-size: 1rem;
+      }
+      .live-node-badge {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.45rem;
+      }
+      #agentic-pipeline-results > div:first-child {
+        grid-template-columns: 1fr !important;
+      }
+      .stat-pills {
+        gap: 0.5rem;
+        font-size: 0.72rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -958,22 +1125,22 @@
       <form id="auth-form" onsubmit="handleAuthSubmit(event)">
         <div class="auth-form-group" id="group-name" style="display: none;">
           <label class="auth-label">Full Name</label>
-          <input type="text" id="auth-name" class="auth-input" placeholder="e.g. Nitanshu Tak" />
+          <input type="text" id="auth-name" class="auth-input" placeholder="e.g. John Doe" />
         </div>
 
         <div class="auth-form-group">
           <label class="auth-label">Work Email / User ID</label>
-          <input type="email" id="auth-email" class="auth-input" required placeholder="name@company.com" value="nitanshu@gauntlet.io" />
+          <input type="email" id="auth-email" class="auth-input" required placeholder="name@company.com" />
         </div>
 
         <div class="auth-form-group" id="group-pass">
           <label class="auth-label">Password</label>
-          <input type="password" id="auth-pass" class="auth-input" placeholder="••••••••••••" value="gauntlet_enterprise" />
+          <input type="password" id="auth-pass" class="auth-input" placeholder="••••••••••••" />
         </div>
 
         <div class="auth-form-group" id="group-role" style="display: none;">
           <label class="auth-label">Cluster Role</label>
-          <input type="text" id="auth-role" class="auth-input" placeholder="Lead Platform Architect" value="Lead Platform Architect" />
+          <input type="text" id="auth-role" class="auth-input" placeholder="e.g. Platform Architect" />
         </div>
 
         <button type="submit" id="auth-submit-btn" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.8rem; font-size: 0.9rem; margin-top: 0.5rem;">
@@ -1000,8 +1167,8 @@
         <span class="brand-logo-text">GAUNTLET</span>
       </button>
       <div class="brand-pill">High-Density Telemetry Engine</div>
-      <div class="live-node-badge">
-        <span class="pulsing-dot"></span> Cluster Online (127.0.0.1:8080)
+      <div class="live-node-badge" id="cluster-node-badge">
+        <span class="pulsing-dot"></span> Cluster Online
       </div>
     </div>
     <div class="header-right">
@@ -1013,8 +1180,8 @@
       
       <!-- USER ACCOUNT & PROFILE -->
       <button class="user-profile-btn" onclick="openProfileModal()">
-        <div class="user-avatar" id="header-avatar">N</div>
-        <span id="header-user-name">Nitanshu Tak</span>
+        <div class="user-avatar" id="header-avatar">U</div>
+        <span id="header-user-name">Guest User</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
     </div>
@@ -1200,12 +1367,12 @@
             <span class="badge LOW">Autonomous Agent Ready</span>
           </div>
           <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
-            Enter any local server (e.g. <code style="font-weight: bold; color: var(--brand);">http://127.0.0.1:3000</code> for Aura Botanica Café) or external URL. GAUNTLET’s autonomous agent will fetch, ingest into binary WAL, build Bloom filters, parse AST telemetry, measure drift, and diagnose anomalies.
+            Enter any live web application (e.g. <code style="font-weight: bold; color: var(--brand);">https://swaskiee.github.io/Gauntlet/</code> for Aura Botanica Café) or external URL. GAUNTLET’s autonomous agent will fetch, ingest into binary WAL, build Bloom filters, parse AST telemetry, measure drift, and diagnose anomalies.
           </p>
 
-          <div style="display: flex; gap: 0.6rem; margin-bottom: 0.75rem;">
-            <input type="text" id="agentic-url-input" value="http://127.0.0.1:3000" placeholder="https://example.com or http://127.0.0.1:3000" style="margin-bottom: 0;" />
-            <button class="btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap;" onclick="executeAgenticCrawl()">
+          <div class="agentic-search-row">
+            <input type="text" id="agentic-url-input" value="https://swaskiee.github.io/Gauntlet/" placeholder="https://swaskiee.github.io/Gauntlet/ or https://example.com" />
+            <button class="btn-primary" onclick="executeAgenticCrawl()">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               Run 6-Phase Agentic Pipeline
             </button>
@@ -1213,10 +1380,12 @@
 
           <div class="chip-group" style="margin-bottom: 0.75rem;">
             <span style="font-size: 0.74rem; color: var(--text-muted); align-self: center; font-weight: 600;">Quick Probes:</span>
-            <span class="chip" onclick="document.getElementById('agentic-url-input').value='http://127.0.0.1:3000'; executeAgenticCrawl();">Aura Botanica Café (127.0.0.1:3000)</span>
-            <span class="chip" onclick="document.getElementById('agentic-url-input').value='http://127.0.0.1:8080'; executeAgenticCrawl();">Gauntlet API (127.0.0.1:8080)</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://swaskiee.github.io/Gauntlet/'; executeAgenticCrawl();">Aura Botanica (Live)</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://gauntlet-gules.vercel.app'; executeAgenticCrawl();">Gauntlet Vercel</span>
             <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://news.ycombinator.com'; executeAgenticCrawl();">Hacker News</span>
             <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://github.com'; executeAgenticCrawl();">GitHub</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://en.wikipedia.org'; executeAgenticCrawl();">Wikipedia</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://web.whatsapp.com'; executeAgenticCrawl();">WhatsApp Web</span>
           </div>
 
           <!-- AGENTIC PIPELINE STATUS STRIP -->
@@ -2318,7 +2487,7 @@
           avatarContainer.innerHTML = `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;" />`;
         }
       } else {
-        const initial = (user.name || 'N').charAt(0).toUpperCase();
+        const initial = (user.name || 'User').charAt(0).toUpperCase();
         if (headerAvatar) {
           headerAvatar.style.background = 'linear-gradient(135deg, #2563eb, #7c3aed)';
           headerAvatar.textContent = initial;

@@ -1,0 +1,2 @@
+﻿# Empty manifest certifying zero third-party dependencies
+# GAUNTLET relies strictly on the Python standard library (Python 3.11+)

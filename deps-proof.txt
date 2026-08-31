@@ -1,0 +1,17 @@
+﻿# Zero Runtime Dependencies Proof
+# GAUNTLET runs exclusively on standard library modules.
+# No external packages are required to run or test the system.
+
+# Standard Library Modules Utilized:
+# - struct (Binary segment & WAL framing)
+# - zlib (CRC-32 checksum integrity)
+# - hashlib (Deterministic SHA-256 event IDs & Bloom hash seeds)
+# - math (Z-Score, Standard Deviation, Pearson Correlation r)
+# - http.server (Lightweight REST & Static Web Server)
+# - urllib.request (Multi-socket HTTP web crawler)
+# - pathlib / os (Atomic file operations & disk sync)
+# - json (Structured payload normalization)
+# - dataclasses / typing (Strongly-typed record schemas)
+# - threading (Concurrency control & locks)
+# - time / datetime (High-resolution temporal telemetry)
+# - unittest (26 unit & contract validation tests)

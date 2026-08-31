@@ -1,27 +1,17 @@
-﻿{
+{
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "gauntlet.py",
-      "use": "@vercel/python"
+      "source": "/api/:path*",
+      "destination": "https://gauntlet-telemetry.onrender.com/api/:path*"
     },
     {
-      "src": "web/static/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/web/static/$1"
+      "source": "/static/:path*",
+      "destination": "/web/static/:path*"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "gauntlet.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/web/static/index.html"
+      "source": "/(.*)",
+      "destination": "/web/static/index.html"
     }
   ]
 }

@@ -1,0 +1,12 @@
+﻿# Zero-Dependency Verification Protocol
+[zero-dependency]
+enforced = true
+language = "python"
+minimum_version = "3.11"
+external_dependencies_count = 0
+runtime_frameworks = []
+external_databases = []
+
+[verification]
+command = "python -m unittest discover tests -v"
+entrypoint = "python gauntlet.py serve"

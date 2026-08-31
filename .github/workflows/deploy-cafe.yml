@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - nitanshu/engine-core
   workflow_dispatch:
 
 permissions:
@@ -28,7 +29,7 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload Aura Botanica Artifacts
+      - name: Upload Aura Botanica Static Site
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'aura-botanica'
