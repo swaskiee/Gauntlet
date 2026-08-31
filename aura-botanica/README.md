@@ -94,7 +94,7 @@ NITANSHU-KAFE/
 
 ## 🌐 Deployment
 GitHub Pages:
-https://nitanshu715.github.io/NITANSHU-KAFE/
+https://swaskiee.github.io/Gauntlet/
 
 ---
 
